@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import auth from './routes/auth';
-import user from './routes/user';
-import test from './routes/test';
-import fonasa from './routes/fonasa';
-import agendash from './routes/agendash';
+// import auth from './routes/auth';
+// import user from './routes/user';
+// import test from './routes/test';
+// import fonasa from './routes/fonasa';
+// import agendash from './routes/agendash';
 
 // guaranteed to get dependencies
 export default () => {
@@ -14,5 +14,5 @@ export default () => {
 	//fonasa(app);
 	//agendash(app);
 
-	return app
-}
+	return app;
+};
