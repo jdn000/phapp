@@ -32,7 +32,7 @@ export class UserRepository {
       secondSurName: data.secondSurName,
       roleId: data.roleId,
       email: data.email,
-      profileImage: data.profileImage
+      //  profileImage: data.profileImage
     });
   }
 
