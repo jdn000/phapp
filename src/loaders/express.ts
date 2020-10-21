@@ -4,8 +4,8 @@ import cors from 'cors';
 import config from '../config';
 import { Container } from 'typedi';
 import { useExpressServer, useContainer } from 'routing-controllers';
-import { AuthController } from '../api/controllers/auth.controller';
-import { UserController } from '../api/controllers/user.controller';
+import { join } from 'path';
+import { CustomErrorHandler } from '../api/middlewares/errorHandler';
 
 export default ({ app }: { app: express.Application }) => {
   /**
@@ -44,10 +44,16 @@ export default ({ app }: { app: express.Application }) => {
   useExpressServer(app, {
     // register created express server in routing-controllers
     routePrefix: config.api.prefix,
+    defaultErrorHandler: false,
     controllers: [
-      AuthController,
-      UserController
-    ], // and configure it the way you need (controllers, validation, etc.)
+      join(
+        __dirname,
+        `../api/controllers/*${process.env.NODE_ENV && process.env.NODE_ENV === 'production' ? '.js' : '.ts'}`,
+      ),
+    ],
+    middlewares: [
+      CustomErrorHandler
+    ]
   });
 
   /// catch 404 and forward to error handler

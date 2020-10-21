@@ -14,7 +14,7 @@ export default {
   /**
    * Your favorite port
    */
-  port: parseInt(process.env.HTTP_PORT, 10),
+  port: parseInt(process.env.HTTP_PORT || '3000', 10),
 
   /**
    * That long string from mlab
@@ -31,6 +31,8 @@ export default {
    */
   logs: {
     level: process.env.LOG_LEVEL || 'silly',
+    fileEnabled: process.env.ENABLE_LOG_FILE && process.env.ENABLE_LOG_FILE === 'true',
+    consoleEnabled: process.env.ENABLE_LOG_CONSOLE && process.env.ENABLE_LOG_CONSOLE === 'true'
   },
 
   /**
@@ -68,6 +70,7 @@ export default {
     db: process.env.PG_DB,
     user: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
+    logEnabled: process.env.PG_LOG_ENABLED && process.env.PG_LOG_ENABLED == 'true'
   }
 };
 
