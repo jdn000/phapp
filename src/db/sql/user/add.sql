@@ -7,7 +7,7 @@ INSERT INTO
         last_name,
         second_surname,
         email,
-        profile_image,
+
         role_id
     )
 VALUES
@@ -19,6 +19,6 @@ VALUES
         ${lastName},
         ${secondSurName},
         ${email},
-        ${profileImage},
+
         ${roleId}
     ) RETURNING *

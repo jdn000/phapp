@@ -6,7 +6,7 @@ SET
     last_name = ${lastName},
     second_surname = ${secondSurName},
     email = ${email},
-    profile_image = ${profileImage},
+
     status = ${status},
     role_id = ${roleId},
     updated_at = now()
@@ -19,6 +19,6 @@ RETURNING
     last_name AS lastName,
     second_surname AS secondSurName,
     email AS email,
-    profile_image AS profileImage,
+    --profile_image AS profileImage,
     status
     

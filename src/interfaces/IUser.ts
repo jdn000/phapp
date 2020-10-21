@@ -8,7 +8,7 @@ export interface IUser {
   secondSurName: string;
   email: string;
   roleId: number;
-  profileImage: string;
+  //  profileImage: string;
 }
 
 export interface IUserInputDTO {

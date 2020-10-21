@@ -7,7 +7,7 @@ SELECT
     u.password AS password,
     u.salt AS salt, 
     u.email AS email,
-    u.profile_image AS profileImage,
+
     u.status AS status  
 FROM
     ${schema~}.user u
