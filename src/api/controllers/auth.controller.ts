@@ -1,7 +1,7 @@
 import { JsonController, Body, Post, Res } from 'routing-controllers';
 import { Response } from 'express';
 import AuthService from '../../services/auth.service';
-import { IUserInputDTO, IUser } from '../../interfaces/IUser';
+import { UserInputDTO, User } from '../../interfaces/User';
 import Logger from '../../loaders/logger';
 
 @JsonController('/auth')
@@ -10,9 +10,9 @@ export class AuthController {
   constructor(private authService: AuthService) { }
 
   @Post('/signup')
-  async SignUp(@Body() data: IUser) {
+  async SignUp(@Body() data: User) {
     Logger.debug('Calling Sign-Up endpoint with body: %o', data);
-    const { user, token } = await this.authService.signUp(data as IUser);
+    const { user, token } = await this.authService.signUp(data as User);
     return {
       status: true,
       data: {
@@ -22,9 +22,9 @@ export class AuthController {
   }
 
   @Post('/signin')
-  async SignIn(@Body() data: IUserInputDTO) {
+  async SignIn(@Body() data: UserInputDTO) {
     Logger.debug('Calling Sign-In endpoint with body: %o', data);
-    const { token } = await this.authService.signIn(data as IUserInputDTO);
+    const { token } = await this.authService.signIn(data as UserInputDTO);
     return {
       status: true,
       data: {
@@ -35,7 +35,7 @@ export class AuthController {
   }
 
   @Post('/logout')
-  LogOut(@Body() data: IUserInputDTO, @Res() res: Response) {
+  LogOut(@Body() data: UserInputDTO, @Res() res: Response) {
     Logger.debug('Calling Sign-Out endpoint with body: %o', data);
     return res.status(200).end();
   }

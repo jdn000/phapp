@@ -1,21 +1,21 @@
 import { Service } from 'typedi';
 import { db } from '../db';
 import Logger from '../loaders/logger';
-import { IUser } from '../interfaces/IUser';
+import { User } from '../interfaces/User';
 
 @Service()
 export default class UserService {
 
-  public async getall(): Promise<IUser[]> {
+  public async getall(): Promise<User[]> {
     try {
-      return await db.user.getAll();      
+      return await db.user.getAll();
     } catch (error) {
       Logger.error(error);
       throw error;
     }
   }
 
-  public async getById(data: number): Promise<IUser> {
+  public async getById(data: number): Promise<User> {
     try {
       return await db.user.findById(data);
     } catch (error) {
@@ -24,7 +24,7 @@ export default class UserService {
     }
   }
 
-  public async create(data: IUser): Promise<IUser> {
+  public async create(data: User): Promise<User> {
     try {
       return await db.user.add(data);
     } catch (error) {
@@ -33,7 +33,7 @@ export default class UserService {
     }
   }
 
-  public async update(data: IUser): Promise<IUser> {
+  public async update(data: User): Promise<User> {
     try {
       return await db.user.update(data);
     } catch (error) {

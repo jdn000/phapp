@@ -1,6 +1,6 @@
 import { IDatabase, IMain } from 'pg-promise';
 import { user as sql } from '../sql';
-import { IUser } from '../../interfaces/IUser';
+import { User } from '../../interfaces/User';
 
 export class UserRepository {
   /**
@@ -22,7 +22,7 @@ export class UserRepository {
         */
   }
 
-  async add(data: IUser): Promise<IUser> {
+  async add(data: User): Promise<User> {
     return this.db.one(sql.add, {
       username: data.username,
       password: data.password,
@@ -37,25 +37,25 @@ export class UserRepository {
   }
 
   // Returns one records by id
-  async findById(id: number): Promise<IUser> {
+  async findById(id: number): Promise<User> {
     return this.db.oneOrNone(sql.findById, {
       id: id,
     });
   }
 
-  async findByUsername(username: string): Promise<IUser> {
+  async findByUsername(username: string): Promise<User> {
     return this.db.oneOrNone(sql.findByUsername, {
       username: username,
     });
   }
 
   // Returns all user records;
-  async getAll(): Promise<IUser[]> {
+  async getAll(): Promise<User[]> {
     return this.db.any(sql.findAll);
   }
 
   //update one user record
-  async update(data: IUser): Promise<IUser> {
+  async update(data: User): Promise<User> {
     return this.db.oneOrNone(sql.update, data);
   }
 }

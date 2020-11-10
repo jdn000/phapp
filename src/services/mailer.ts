@@ -1,5 +1,5 @@
 import { Service, Inject } from 'typedi';
-import { IUser } from '../interfaces/IUser';
+import { User } from '../interfaces/User';
 
 @Service()
 export default class MailerService {
@@ -22,7 +22,7 @@ export default class MailerService {
     this.emailClient.messages().send(data);
     return { delivered: 1, status: 'ok' };
   }
-  public StartEmailSequence(sequence: string, user: Partial<IUser>) {
+  public StartEmailSequence(sequence: string, user: Partial<User>) {
     if (!user.email) {
       throw new Error('No email provided');
     }

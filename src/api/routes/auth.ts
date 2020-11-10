@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 import AuthService from '../../services/auth.service';
-import { IUserInputDTO } from '../../interfaces/IUser';
+import { UserInputDTO } from '../../interfaces/User';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
 
@@ -19,10 +19,10 @@ export default (app: Router) => {
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
-      const logger = Container.get('logger')
+      const logger = Container.get('logger');
       try {
         // const authServiceInstance = Container.get(AuthService);
-        // const { user, token } = await authServiceInstance.SignUp(req.body as IUserInputDTO);
+        // const { user, token } = await authServiceInstance.SignUp(req.body as UserInputDTO);
         // return res.status(201).json({ user, token });
         return res.status(201).json({
           status: false,

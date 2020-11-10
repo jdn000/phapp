@@ -4,19 +4,19 @@ import config from '../config';
 import argon2 from 'argon2';
 import { db } from '../db';
 import { randomBytes } from 'crypto';
-import { IUser, IUserInputDTO } from '../interfaces/IUser';
+import { User, UserInputDTO } from '../interfaces/User';
 import { EventDispatcher, EventDispatcherInterface } from '../decorators/eventDispatcher';
 import events from '../subscribers/events';
-import LoggerInstance from '../loaders/logger'; 
+import LoggerInstance from '../loaders/logger';
 
 @Service()
 export default class AuthService {
-  constructor(    
-    @Inject('logger') private logger,    
+  constructor(
+    @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
 
-  public async signUp(userInputDTO: IUser): Promise<{ user: IUser; token: string }> {
+  public async signUp(userInputDTO: User): Promise<{ user: User; token: string; }> {
     try {
       const salt = randomBytes(32);
       this.logger.silly('Hashing password');
@@ -25,7 +25,7 @@ export default class AuthService {
       let userRecord = userInputDTO;
       userRecord['salt'] = salt.toString('hex');
       userRecord.password = hashedPassword;
-      let user: IUser = await db.user.add(userRecord);
+      let user: User = await db.user.add(userRecord);
       this.logger.silly('Generating JWT');
       const token: string = this.generateToken(user);
 
@@ -42,7 +42,7 @@ export default class AuthService {
     }
   }
 
-  public async signIn(user: IUserInputDTO): Promise<{ user: IUser; token: string }> {    
+  public async signIn(user: UserInputDTO): Promise<{ user: User; token: string; }> {
     const userRecord = await db.user.findByUsername(user.username);
     if (!userRecord) {
       throw new Error('User not registered');
@@ -58,14 +58,14 @@ export default class AuthService {
       const token = this.generateToken(userRecord);
       const user = userRecord;
       delete user.password;
-      delete user.salt;      
+      delete user.salt;
       return { user, token };
     } else {
       throw new Error('Invalid Password');
     }
   }
 
-  private generateToken(user: IUser) {
+  private generateToken(user: User) {
     const today = new Date();
     const exp = new Date(today);
     exp.setDate(today.getDate() + 60);

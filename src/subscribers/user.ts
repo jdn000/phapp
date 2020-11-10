@@ -1,7 +1,7 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
 import events from './events';
-import { IUser } from '../interfaces/IUser';
+import { User } from '../interfaces/User';
 import mongoose from 'mongoose';
 import Logger from '../loaders/logger';
 
@@ -18,9 +18,9 @@ export default class UserSubscriber {
    * then save the latest in Redis/Memcache or something similar
    */
   @On(events.user.signIn)
-  public onUserSignIn({ id }: Partial<IUser>) {
+  public onUserSignIn({ id }: Partial<User>) {
     try {
-      const UserModel = Container.get('UserModel') as mongoose.Model<IUser & mongoose.Document>;
+      const UserModel = Container.get('UserModel') as mongoose.Model<User & mongoose.Document>;
       UserModel.update({ id }, { $set: { lastLogin: new Date() } });
     } catch (e) {
       Logger.error(`🔥 Error on event ${events.user.signIn}: %o`, e);
@@ -31,7 +31,7 @@ export default class UserSubscriber {
   }
 
   @On(events.user.signUp)
-  public onUserSignUp({ username, email, id }: Partial<IUser>) {
+  public onUserSignUp({ username, email, id }: Partial<User>) {
     try {
       /**
        * @TODO implement this

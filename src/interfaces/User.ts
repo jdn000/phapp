@@ -1,4 +1,4 @@
-export interface IUser {
+export interface User {
   id: number;
   username: string;
   password: string;
@@ -11,7 +11,7 @@ export interface IUser {
   //  profileImage: string;
 }
 
-export interface IUserInputDTO {
+export interface UserInputDTO {
   username: string;
   password: string;
 }

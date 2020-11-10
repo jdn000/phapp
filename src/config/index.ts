@@ -49,7 +49,7 @@ export default {
    */
   agendash: {
     user: 'agendash',
-    password: '123456',
+    password: process.env.AGENDA_PASSWORD,
   },
   /**
    * API configs

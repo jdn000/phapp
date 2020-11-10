@@ -25,10 +25,18 @@ export const user = {
   findByUsername: sql('user/findByUsername.sql'),
 };
 
+export const alumn = {
+  add: sql('alumn/add.sql'),
+  update: sql('alumn/update.sql'),
+  findAll: sql('alumn/findAll.sql'),
+  findById: sql('alumn/findById.sql'),
+  findByRun: sql('alumn/findByRun.sql'),
+};
+
 // Helper for linking to external query files;
 function sql(file: string): QueryFile {
 
-  const fullPath: string = path.join(__dirname, file); 
+  const fullPath: string = path.join(__dirname, file);
   const options: IQueryFileOptions = {
     // minifying the SQL is always advised;
     // see also option 'compress' in the API;
