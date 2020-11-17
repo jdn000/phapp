@@ -2,6 +2,9 @@
   "name": "paul-harris",
   "version": "1.0.0",
   "description": "Paul-Harris-app",
+  "engines": {
+    "node": "10.16.3"
+  },
   "main": "src/app.ts",
   "scripts": {
     "build": "tsc",
@@ -15,7 +18,6 @@
     "lint:eslint": "eslint --ignore-path .gitignore --ext .ts",
     "lint:js": "npm run lint:eslint src/",
     "lint:fix": "npm run lint:js -- --fix",
-    "copy-static": "copyfiles -E -u 1 -e \"**/*.ts\" \"src/db/sql/**\" \"build/\"",
     "production": "set NODE_ENV=production && node build/app.js"
   },
   "repository": {
