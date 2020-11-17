@@ -15,7 +15,7 @@ VALUES
         ${gradeId}
     ) 
     RETURNING 
-
+    id,
     run, 
     names,
     last_name AS "lastName",

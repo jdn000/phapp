@@ -29,7 +29,7 @@ export class UserRepository {
       salt: data.salt,
       firstName: data.firstName,
       lastName: data.lastName,
-      secondSurName: data.secondSurName,
+      secondSurname: data.secondSurname,
       roleId: data.roleId,
       email: data.email,
       //  profileImage: data.profileImage

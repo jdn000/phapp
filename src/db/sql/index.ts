@@ -32,7 +32,34 @@ export const alumn = {
   findById: sql('alumn/findById.sql'),
   findByRun: sql('alumn/findByRun.sql'),
 };
-
+export const grade = {
+  findAll: sql('grade/findAll.sql'),
+};
+export const subject = {
+  findAll: sql('subject/findAll.sql'),
+};
+export const learningObjective = {
+  add: sql('learningObjective/add.sql'),
+  update: sql('learningObjective/update.sql'),
+  findAll: sql('learningObjective/findAll.sql'),
+  findById: sql('learningObjective/findById.sql'),
+  findBySubjectId: sql('learningObjective/findBySubjectId.sql'),
+  findByGradeIdAndSubjectId: sql('learningObjective/findByGradeIdAndSubjectId.sql'),
+};
+export const calification = {
+  add: sql('calification/add.sql'),
+  update: sql('calification/update.sql'),
+  findAll: sql('calification/findAll.sql'),
+  findById: sql('calification/findById.sql'),
+  findByAlumnId: sql('calification/findByAlumnId.sql'),
+};
+export const calificationObjective = {
+  add: sql('calificationObjective/add.sql'),
+  update: sql('calificationObjective/update.sql'),
+  findAll: sql('calificationObjective/findAll.sql'),
+  findById: sql('calificationObjective/findById.sql'),
+  findByObjectiveId: sql('calificationObjective/findByObjectiveId.sql'),
+};
 // Helper for linking to external query files;
 function sql(file: string): QueryFile {
 

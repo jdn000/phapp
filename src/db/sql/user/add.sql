@@ -17,7 +17,7 @@ VALUES
         ${salt},
         ${firstName},
         ${lastName},
-        ${secondSurName},
+        ${secondSurname},
         ${email},
 
         ${roleId}

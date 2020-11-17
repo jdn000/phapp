@@ -6,6 +6,11 @@ import { IInitOptions, IDatabase, IMain } from 'pg-promise';
 import {
   IExtensions,
   UserRepository,
+  AlumnRepository,
+  GradeRepository,
+  SubjectRepository,
+  LearningObjectiveRepository,
+  CalificationRepository
 } from './repos';
 
 
@@ -24,6 +29,11 @@ const initOptions: IInitOptions<IExtensions> = {
     // Do not use 'require()' here, because this event occurs for every task and transaction being executed,
     // which should be as fast as possible.
     obj.user = new UserRepository(obj, pgp);
+    obj.alumn = new AlumnRepository(obj, pgp);
+    obj.grade = new GradeRepository(obj, pgp);
+    obj.subject = new SubjectRepository(obj, pgp);
+    obj.learningObjective = new LearningObjectiveRepository(obj, pgp);
+    obj.calification = new CalificationRepository(obj, pgp);
   },
 };
 

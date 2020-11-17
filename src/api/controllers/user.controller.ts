@@ -8,45 +8,36 @@ import { validators } from '../middlewares/inputValidators';
 @JsonController('/user')
 export class UserController {
 
-  constructor(private userService: UserService) { }
+  constructor(private readonly userService: UserService) { }
 
   @Get('/')
   @UseBefore(middlewares.isAuth)
-  async getAll(): Promise<{ status: boolean, data: User[]; }> {
-    let data = await this.userService.getall();
-    return {
-      status: true,
-      data: data
-    };
+  async getAll(): Promise<User[]> {
+    return this.userService.getall();
+
   }
 
   @Get('/:id')
   @UseBefore(celebrate(validators.user.get))
   @UseBefore(middlewares.isAuth)
-  async getById(@Param('id') id: number): Promise<{ status: boolean, data: User; }> {
-    let user = await this.userService.getById(id);
-    return {
-      status: true,
-      data: user
-    };
+  async getById(@Param('id') id: number): Promise<User> {
+    return this.userService.getById(id);
+
   }
 
   @Post('/')
   @UseBefore(celebrate(validators.user.post))
   @UseBefore(middlewares.isAuth)
   async post(@Body() data: User): Promise<User> {
-    return await this.userService.create(data);
+    return this.userService.create(data);
   }
 
   @Put('/:id')
   @UseBefore(celebrate(validators.user.put))
   @UseBefore(middlewares.isAuth)
-  async put(@Param('id') id: number, @Body() params: User): Promise<{ status: boolean, data: User; }> {
+  async put(@Param('id') id: number, @Body() params: User): Promise<User> {
     params.id = id;
-    let data = await this.userService.update(params);
-    return {
-      status: true,
-      data: data
-    };
+    return this.userService.update(params);
+
   }
 }

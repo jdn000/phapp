@@ -7,12 +7,12 @@ import Logger from '../../loaders/logger';
 @JsonController('/auth')
 export class AuthController {
 
-  constructor(private authService: AuthService) { }
+  constructor(private readonly authService: AuthService) { }
 
   @Post('/signup')
   async SignUp(@Body() data: User) {
     Logger.debug('Calling Sign-Up endpoint with body: %o', data);
-    const { user, token } = await this.authService.signUp(data as User);
+    const { user, token } = await this.authService.signUp(data);
     return {
       status: true,
       data: {
@@ -23,8 +23,9 @@ export class AuthController {
 
   @Post('/signin')
   async SignIn(@Body() data: UserInputDTO) {
+    console.log(data);
     Logger.debug('Calling Sign-In endpoint with body: %o', data);
-    const { token } = await this.authService.signIn(data as UserInputDTO);
+    const { token } = await this.authService.signIn(data);
     return {
       status: true,
       data: {

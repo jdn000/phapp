@@ -1,4 +1,5 @@
 SELECT
+    id,
     run, 
     names,
     last_name AS "lastName",
@@ -7,3 +8,4 @@ SELECT
 FROM ${ schema~ }.alumn 
 WHERE
     run = ${run}
+ORDER BY last_name
