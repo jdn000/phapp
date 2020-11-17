@@ -1,3 +1,3 @@
-# LIS Server
+# Paul Harris App
 
-Backend server application of new Laboratory Information System for Roman Diaz Lab.
+Backend of the application to Paul Harris School
