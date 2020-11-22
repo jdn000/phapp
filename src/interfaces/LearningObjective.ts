@@ -4,5 +4,6 @@ export interface LearningObjective {
   description: string;
   name: string;
   gradeId: number;
+  objectiveId: number;
 }
 

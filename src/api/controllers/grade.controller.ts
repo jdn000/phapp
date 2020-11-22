@@ -11,7 +11,7 @@ export class GradeController {
   @Get('/')
   @UseBefore(middlewares.isAuth)
   async getAll(): Promise<Grade[]> {
-    return this.gradeService.getall();
+    return this.gradeService.getAll();
   }
 
 

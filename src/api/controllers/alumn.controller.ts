@@ -13,7 +13,7 @@ export class AlumnController {
   @Get('/')
   @UseBefore(middlewares.isAuth)
   async getAll(): Promise<Alumn[]> {
-    return this.alumnService.getall();
+    return this.alumnService.getAll();
 
   }
 

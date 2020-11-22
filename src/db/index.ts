@@ -10,8 +10,10 @@ import {
   GradeRepository,
   SubjectRepository,
   LearningObjectiveRepository,
-  CalificationRepository
+  CalificationRepository,
+  IndicatorRepository
 } from './repos';
+
 
 
 type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
@@ -34,6 +36,7 @@ const initOptions: IInitOptions<IExtensions> = {
     obj.subject = new SubjectRepository(obj, pgp);
     obj.learningObjective = new LearningObjectiveRepository(obj, pgp);
     obj.calification = new CalificationRepository(obj, pgp);
+    obj.indicator = new IndicatorRepository(obj, pgp);
   },
 };
 

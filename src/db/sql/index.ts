@@ -60,6 +60,13 @@ export const calificationObjective = {
   findById: sql('calificationObjective/findById.sql'),
   findByObjectiveId: sql('calificationObjective/findByObjectiveId.sql'),
 };
+export const indicator = {
+  add: sql('indicator/add.sql'),
+  update: sql('indicator/update.sql'),
+  findAll: sql('indicator/findAll.sql'),
+  findById: sql('indicator/findById.sql'),
+  findByObjectiveId: sql('indicator/findByObjectiveId.sql'),
+};
 // Helper for linking to external query files;
 function sql(file: string): QueryFile {
 

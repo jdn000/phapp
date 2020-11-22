@@ -13,7 +13,7 @@ export class CalificationController {
   @Get('/')
   @UseBefore(middlewares.isAuth)
   async getAll(): Promise<Calification[]> {
-    return this.calificationService.getall();
+    return this.calificationService.getAll();
 
   }
   @Get('/:id')

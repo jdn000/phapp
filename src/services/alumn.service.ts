@@ -6,7 +6,7 @@ import { Alumn } from '../interfaces/Alumn';
 @Service()
 export default class AlumnService {
 
-  public async getall(): Promise<Alumn[]> {
+  public async getAll(): Promise<Alumn[]> {
     try {
       return await db.alumn.getAll();
     } catch (error) {

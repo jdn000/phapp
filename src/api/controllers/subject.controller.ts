@@ -11,7 +11,7 @@ export class SubjectController {
   @Get('/')
   @UseBefore(middlewares.isAuth)
   async getAll(): Promise<Subject[]> {
-    return this.subjectService.getall();
+    return this.subjectService.getAll();
   }
 
 

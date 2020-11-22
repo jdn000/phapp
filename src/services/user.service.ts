@@ -6,7 +6,7 @@ import { User } from '../interfaces/User';
 @Service()
 export default class UserService {
 
-  public async getall(): Promise<User[]> {
+  public async getAll(): Promise<User[]> {
     try {
       return await db.user.getAll();
     } catch (error) {

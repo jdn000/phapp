@@ -7,13 +7,12 @@ import { randomBytes } from 'crypto';
 import { User, UserInputDTO } from '../interfaces/User';
 import { EventDispatcher, EventDispatcherInterface } from '../decorators/eventDispatcher';
 import events from '../subscribers/events';
-import LoggerInstance from '../loaders/logger';
 
 @Service()
 export default class AuthService {
   constructor(
-    @Inject('logger') private logger,
-    @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
+    @Inject('logger') private readonly logger,
+    @EventDispatcher() private readonly eventDispatcher: EventDispatcherInterface,
   ) { }
 
   public async signUp(userInputDTO: User): Promise<{ user: User; token: string; }> {
@@ -22,10 +21,10 @@ export default class AuthService {
       this.logger.silly('Hashing password');
       const hashedPassword = await argon2.hash(userInputDTO.password, { salt });
       this.logger.silly('Creating user db record');
-      let userRecord = userInputDTO;
+      const userRecord = userInputDTO;
       userRecord['salt'] = salt.toString('hex');
       userRecord.password = hashedPassword;
-      let user: User = await db.user.add(userRecord);
+      const user: User = await db.user.add(userRecord);
       this.logger.silly('Generating JWT');
       const token: string = this.generateToken(user);
 

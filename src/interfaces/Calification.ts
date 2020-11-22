@@ -6,5 +6,13 @@ export interface Calification {
   subjectId: number;
   value: number;
   isCummulative: boolean;
+  indicators?: number[];
 }
 
+export interface CalificationIndicator {
+  id?: number;
+  calificationId?: number;
+  indicatorId?: number;
+
+
+}

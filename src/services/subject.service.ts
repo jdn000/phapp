@@ -7,7 +7,7 @@ import Logger from '../loaders/logger';
 @Service()
 export default class SubjectService {
 
-  public async getall(): Promise<Subject[]> {
+  public async getAll(): Promise<Subject[]> {
     try {
       return await db.subject.getAll();
     } catch (error) {

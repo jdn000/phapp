@@ -6,7 +6,7 @@ import { LearningObjective } from '../interfaces/LearningObjective';
 @Service()
 export default class LearningObjectiveService {
 
-  public async getall(): Promise<LearningObjective[]> {
+  public async getAll(): Promise<LearningObjective[]> {
     try {
       return await db.learningObjective.getAll();
     } catch (error) {

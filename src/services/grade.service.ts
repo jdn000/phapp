@@ -7,7 +7,7 @@ import Logger from '../loaders/logger';
 @Service()
 export default class GradeService {
 
-  public async getall(): Promise<Grade[]> {
+  public async getAll(): Promise<Grade[]> {
     try {
       return await db.grade.getAll();
     } catch (error) {

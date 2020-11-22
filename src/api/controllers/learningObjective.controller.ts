@@ -5,7 +5,7 @@ import { celebrate } from 'celebrate';
 import middlewares from '../middlewares';
 import { validators } from '../middlewares/inputValidators';
 
-@JsonController('/learningObjective')
+@JsonController('/objective')
 export class LearningObjectiveController {
 
   constructor(private readonly learningObjectiveService: LearningObjectiveService) { }
@@ -13,7 +13,7 @@ export class LearningObjectiveController {
   @Get('/')
   @UseBefore(middlewares.isAuth)
   async getAll(): Promise<LearningObjective[]> {
-    return this.learningObjectiveService.getall();
+    return this.learningObjectiveService.getAll();
 
   }
   @Get('/:id')
@@ -28,12 +28,14 @@ export class LearningObjectiveController {
   async getBySubjectId(@Param('subjectId') subjectId: number): Promise<LearningObjective[]> {
     return this.learningObjectiveService.getBySubjectId(subjectId);
   }
+
   @Get('/grade/:gradeId/subject/:subjectId')
   @UseBefore(celebrate(validators.learningObjective.getByGradeIdAndSubjectId))
   @UseBefore(middlewares.isAuth)
   async getByGradeIdAndSubjectId(@Param('subjectId') subjectId: number, @Param('gradeId') gradeId: number): Promise<LearningObjective[]> {
     return this.learningObjectiveService.getByGradeIdAndSubjectId(subjectId, gradeId);
   }
+
   @Post('/')
   @UseBefore(celebrate(validators.learningObjective.post))
   @UseBefore(middlewares.isAuth)

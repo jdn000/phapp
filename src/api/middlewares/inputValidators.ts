@@ -69,6 +69,37 @@ export const validators = {
       }),
     },
   },
+  indicator: {
+    get: {
+      params: Joi.object({
+        id: Joi.number().required(),
+      }),
+    }, getByObjectiveId: {
+      params: Joi.object({
+        objectiveId: Joi.number().required(),
+      }),
+    },
+    post: {
+      body: Joi.object({
+        name: Joi.string().required(),
+        description: Joi.string().required(),
+        objectiveId: Joi.number().optional(),
+
+      })
+    },
+    put: {
+      body: Joi.object({
+        name: Joi.string().required(),
+        description: Joi.string().required(),
+        objectiveId: Joi.number().optional(),
+        status: Joi.boolean().optional()
+
+      }),
+      params: Joi.object({
+        id: Joi.number().required(),
+      }),
+    },
+  },
   learningObjective: {
     get: {
       params: Joi.object({
@@ -88,6 +119,7 @@ export const validators = {
     },
     post: {
       body: Joi.object({
+        gradeId: Joi.number().required(),
         subjectId: Joi.number().required(),
         description: Joi.string().optional(),
         name: Joi.string().required(),
@@ -95,6 +127,7 @@ export const validators = {
     },
     put: {
       body: Joi.object({
+        gradeId: Joi.number().required(),
         subjectId: Joi.number().required(),
         description: Joi.string().optional(),
         name: Joi.string().required(),
@@ -132,7 +165,7 @@ export const validators = {
         value: Joi.number().required(),
         isCummulative: Joi.boolean().optional().allow(null),
         objectiveId: Joi.number().optional().allow(null),
-        calificationObjectiveId: Joi.number().optional().allow(null),
+        //  calificationObjectiveId: Joi.number().optional().allow(null),
       }),
       params: Joi.object({
         id: Joi.number().required(),

@@ -1,12 +1,12 @@
 import { Service } from 'typedi';
 import { db } from '../db';
 import Logger from '../loaders/logger';
-import { Calification } from '../interfaces/Calification';
+import { Calification, CalificationIndicator } from '../interfaces/Calification';
 
 @Service()
 export default class CalificationService {
 
-  public async getall(): Promise<Calification[]> {
+  public async getAll(): Promise<Calification[]> {
     try {
       return await db.calification.getAll();
     } catch (error) {
@@ -32,38 +32,51 @@ export default class CalificationService {
       throw error;
     }
   }
-  /***
-   * crea una nueva calificacion, crea un calif-object y actualiza la calificacion con la referencia
-   * a la tabla intermedia calif-object
-   */
-  public async create(data: Calification): Promise<Calification> {
-    try {
-      data.calificationObjectiveId = null;
-      let savedCalification = await db.calification.add(data);
-      if (savedCalification && data.objectiveId) {
-        savedCalification.calificationObjectiveId = (await db.calification.addCalificationObjective(savedCalification.id, data.objectiveId)).id;
 
-        savedCalification = await this.update(savedCalification);
+  public async create(califications: Calification[], indicators: number[]): Promise<Calification[]> {
+    try {
+      const califications: Calification[] = [];
+      const summativeCalifications = califications.filter((d) => d.isCummulative === false);
+      const cummulativeCalifications = califications.filter((d) => d.isCummulative === true);
+
+      if (summativeCalifications) {
+        califications.push(... (await db.calification.addCalifications(summativeCalifications)));
       }
-      return savedCalification;
+
+      if (cummulativeCalifications) {
+        const savedCalifications = await db.calification.addCalifications(cummulativeCalifications);
+        califications.push(...savedCalifications);
+        const savedCalifInd = indicators.map((i) => {
+          return savedCalifications.map((c) => {
+            return {
+              indicatorId: i,
+              calificationId: c.id
+            }
+            );
+
+        });
+        const saved = await this.saveCalificationIndicator(savedCalifInd);
+      }
+      console.log(saved);
+      return califications;
     } catch (error) {
       Logger.error(error);
       throw error;
     }
   }
 
-  /**
-   * actualiza la calif, actualiza el id del objetivo usando la misma referencia a la tabla. no necesita volver a actualizarse
-   * porque ya existe esa entrada en la tabla intermedia
-   */
+  public async saveCalificationIndicator(data: CalificationIndicator[]): Promise<CalificationIndicator[]> {
+    try {
+      return await db.calification.addCalificationIndicators(data);
+    } catch (error) {
+      Logger.error(error);
+      throw error;
+    }
+  }
   public async update(data: Calification): Promise<Calification> {
     try {
-      const updatedCalification = await db.calification.update(data);
-      if (updatedCalification && data.objectiveId && data.calificationObjectiveId) {
-        updatedCalification.objectiveId = (await db.calification.updateCalificationObjective(
-          updatedCalification.calificationObjectiveId, updatedCalification.id, data.objectiveId)).id;
-      }
-      return updatedCalification;
+      return await db.calification.update(data);
+
     } catch (error) {
       Logger.error(error);
       throw error;

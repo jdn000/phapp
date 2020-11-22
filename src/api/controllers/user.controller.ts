@@ -13,7 +13,7 @@ export class UserController {
   @Get('/')
   @UseBefore(middlewares.isAuth)
   async getAll(): Promise<User[]> {
-    return this.userService.getall();
+    return this.userService.getAll();
 
   }
 
