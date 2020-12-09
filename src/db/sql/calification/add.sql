@@ -1,27 +1,26 @@
 INSERT INTO
     ${ schema~ }.calification (
-  
-        alumn_id,
+
         subject_id,
-        value,
+        grade_id,
         is_cummulative,
-        objective_id
+        objective_id,
+        evaluation_number
     )
 VALUES
     (
-     
-        ${alumnId},
         ${subjectId},
-        ${value},
+        ${gradeId},
         ${isCummulative},
-        ${objectiveId}
+        ${objectiveId},
+        ${evaluationNumber}
     ) 
     RETURNING 
 
     id, 
-    alumn_id AS "alumnId",
     subject_id AS "subjectId",
-    value,
+    grade_id AS "gradeId",
     is_cummulative AS "isCummulative",
-    objective_id AS "objectiveId"
+    objective_id AS "objectiveId",
+    evaluation_number AS "evaluationNumber"
 

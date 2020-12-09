@@ -1,9 +1,11 @@
 SELECT
     id, 
+    alumn_id AS "alumnId",
     subject_id AS "subjectId",
-    grade_id AS "gradeId",
+    value,
     is_cummulative AS "isCummulative",
-    objective_id AS "objectiveId",
-    evaluation_number AS "evaluationNumber"
-
+    objective_id AS "objectiveId"
+    
 FROM ${ schema~ }.calification 
+
+WHERE alumn_id = ${alumnId}

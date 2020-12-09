@@ -148,28 +148,77 @@ export const validators = {
         alumnId: Joi.number().required(),
       }),
     },
+    getByCalificationId: {
+      params: Joi.object({
+        calificationId: Joi.number().required(),
+      }),
+    },
+    getByCalificationIdAlumnId: {
+      params: Joi.object({
+        calificationId: Joi.number().required(),
+        alumnId: Joi.number().required(),
+      }),
+    },
+    getByGradeAndSubject: {
+      params: Joi.object({
+        gradeId: Joi.number().required(),
+        subjectId: Joi.number().required(),
+      }),
+    },
     post: {
       body: Joi.object({
-        alumnId: Joi.number().required(),
-        subjectId: Joi.number().required(),
-        value: Joi.number().required(),
-        isCummulative: Joi.boolean().optional().allow(null),
-        objectiveId: Joi.number().optional().allow(null),
-
+        califications: Joi.array().items(
+          Joi.object({
+            alumnId: Joi.number().required(),
+            value: Joi.number().required(),
+          })),
+        indicators: Joi.array().items(
+          Joi.number().optional().allow(null),
+        ),
+        mainCalification: Joi.object({
+          subjectId: Joi.number().required(),
+          isCummulative: Joi.boolean().optional().allow(null),
+          objectiveId: Joi.number().optional().allow(null),
+          evaluationNumber: Joi.number().optional().allow(null),
+          gradeId: Joi.number().required(),
+          indicators: Joi.array().items(
+            Joi.number().optional().allow(null),
+          ),
+        }),
       })
     },
+
     put: {
-      body: Joi.object({
-        alumnId: Joi.number().required(),
-        subjectId: Joi.number().required(),
-        value: Joi.number().required(),
-        isCummulative: Joi.boolean().optional().allow(null),
-        objectiveId: Joi.number().optional().allow(null),
-        //  calificationObjectiveId: Joi.number().optional().allow(null),
-      }),
-      params: Joi.object({
+      body: Joi.array().items({
         id: Joi.number().required(),
-      }),
+        value: Joi.number().required(),
+      }
+      ),
+
+
+    },
+    postCummulative: {
+      body: Joi.object({
+        califications: Joi.array().items(
+          Joi.object({
+            alumnId: Joi.number().required(),
+            value: Joi.number().required(),
+          })),
+        indicators: Joi.array().items(
+          Joi.number().optional().allow(null),
+        ),
+        mainCalification: Joi.object({
+          id: Joi.number().required(),
+          subjectId: Joi.number().required(),
+          isCummulative: Joi.boolean().optional().allow(null),
+          objectiveId: Joi.number().optional().allow(null),
+          evaluationNumber: Joi.number().optional().allow(null),
+          gradeId: Joi.number().required(),
+          indicators: Joi.array().items(
+            Joi.number().optional().allow(null),
+          ),
+        }),
+      })
     },
   },
 };

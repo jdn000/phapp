@@ -52,6 +52,17 @@ export const calification = {
   findAll: sql('calification/findAll.sql'),
   findById: sql('calification/findById.sql'),
   findByAlumnId: sql('calification/findByAlumnId.sql'),
+  findByGradeIdAndSubjectId: sql('calification/findByGradeIdAndSubjectId.sql'),
+  findCummulativesByGradeAndSubject: sql('calification/findCummulativesByGradeAndSubject.sql'),
+  findCummulativesByCalificationId: sql('calification/findCummulativesByCalificationId.sql'),
+  findCummulativesByCalificationIdAlumnId: sql('calification/findCummulativesByCalificationIdAlumnId.sql'),
+};
+export const cummulative = {
+  update: sql('cummulative/update.sql'),
+  findAll: sql('cummulative/findAll.sql'),
+  findById: sql('cummulative/findById.sql'),
+  findByAlumnId: sql('cummulative/findByAlumnId.sql'),
+  findByGradeIdAndSubjectId: sql('cummulative/findByGradeIdAndSubjectId.sql'),
 };
 export const calificationObjective = {
   add: sql('calificationObjective/add.sql'),

@@ -11,7 +11,8 @@ import {
   SubjectRepository,
   LearningObjectiveRepository,
   CalificationRepository,
-  IndicatorRepository
+  IndicatorRepository,
+  CummulativeRepository
 } from './repos';
 
 
@@ -37,6 +38,7 @@ const initOptions: IInitOptions<IExtensions> = {
     obj.learningObjective = new LearningObjectiveRepository(obj, pgp);
     obj.calification = new CalificationRepository(obj, pgp);
     obj.indicator = new IndicatorRepository(obj, pgp);
+    obj.cummulative = new CummulativeRepository(obj, pgp);
   },
 };
 

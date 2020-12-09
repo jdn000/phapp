@@ -1,5 +1,6 @@
 import { AlumnRepository } from './alumn.repo';
 import { CalificationRepository } from './calification.repo';
+import { CummulativeRepository } from './cummulative.repo';
 import { GradeRepository } from './grade.repo';
 import { IndicatorRepository } from './indicator.repo';
 import { LearningObjectiveRepository } from './learnigObjective.repo';
@@ -16,6 +17,7 @@ interface IExtensions {
   learningObjective: LearningObjectiveRepository;
   calification: CalificationRepository;
   indicator: IndicatorRepository;
+  cummulative: CummulativeRepository;
 }
 
 export {
@@ -26,5 +28,6 @@ export {
   SubjectRepository,
   LearningObjectiveRepository,
   CalificationRepository,
-  IndicatorRepository
+  IndicatorRepository,
+  CummulativeRepository
 };

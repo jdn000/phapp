@@ -1,6 +1,7 @@
 import { IDatabase, IMain } from 'pg-promise';
 import { calification as sql } from '../sql';
-import { Calification, CalificationIndicator } from '../../interfaces/Calification';
+import { AlumnCalification, Calification, CalificationIndicator } from '../../interfaces/Calification';
+import { CalificationCummulative } from '../../interfaces/CummulativeCalification';
 
 export class CalificationRepository {
   /**
@@ -17,38 +18,38 @@ export class CalificationRepository {
   constructor(private readonly db: IDatabase<any>, private readonly pgp: IMain) {
 
   }
-
-  async adds(data: Calification): Promise<Calification> {
+  async addCalification(data: Calification): Promise<Calification> {
     return this.db.one(sql.add, data);
   }
 
-  async addCalifications(data: Calification[]): Promise<Calification[]> {
+  // ===============
+  async addAlumnCalifications(data: AlumnCalification[]): Promise<AlumnCalification[]> {
     const query = this.pgp.helpers.insert(data, this.getCsToSave()) + this.getColumnsNameToReturn();
     return this.db.manyOrNone(query);
   }
   private readonly columnsToSave = [
+    { name: 'id_calification', prop: 'idCalification' },
     { name: 'alumn_id', prop: 'alumnId' },
-    { name: 'subject_id', prop: 'subjectId' },
-    { name: 'value', prop: 'value' },
-    { name: 'is_cummulative', prop: 'isCummulative' },
-    { name: 'objective_id', prop: 'objectiveId' }
+    { name: 'value', prop: 'value' }
   ];
   getColumnsNameToReturn() {
     return ` RETURNING id AS "id",
     alumn_id AS "alumnId",
-    subject_id AS "subjectId",
-    value ,
-    is_cummulative AS " isCummulative",
-    objective_id AS "objectiveId" `;
+    id_calification AS "idCalification",
+    value 
+    `;
   }
   getCsToSave() {
-    return new this.pgp.helpers.ColumnSet(this.columnsToSave, { table: 'calification' });
+    return new this.pgp.helpers.ColumnSet(this.columnsToSave, { table: 'alumn_calification' });
   }
   async addCummulativeCalifications(data: Calification[]): Promise<Calification[]> {
     const query = this.pgp.helpers.insert(data, this.getCsToSave()) + this.getColumnsNameToReturn();
 
     return this.db.manyOrNone(query);
   }
+  // ===============
+
+
   async addCalificationIndicators(data: CalificationIndicator[]): Promise<CalificationIndicator[]> {
     const query = this.pgp.helpers.insert(data, this.getCalificationIndicatorToSave()) + this.getCalificationIndicatorColumnsNameToReturn();
     return this.db.manyOrNone(query);
@@ -67,8 +68,6 @@ export class CalificationRepository {
   }
 
 
-
-
   // Returns one records by id
   async findById(id: number): Promise<Calification> {
     return this.db.oneOrNone(sql.findById, {
@@ -81,8 +80,28 @@ export class CalificationRepository {
       alumnId: alumnId,
     });
   }
+  async findByGradeAndSubject(gradeId: number, subjectId: number): Promise<Calification[]> {
+    return this.db.manyOrNone(sql.findByGradeIdAndSubjectId, {
+      gradeId: gradeId, subjectId: subjectId,
+    });
+  }
+  async findCummulativeByGradeAndSubject(gradeId: number, subjectId: number): Promise<CalificationCummulative[]> {
+    return this.db.manyOrNone(sql.findCummulativesByGradeAndSubject, {
+      gradeId: gradeId, subjectId: subjectId,
+    });
+  }
+  async findCummulativeByCalificationId(calificationId: number): Promise<CalificationCummulative[]> {
+    return this.db.manyOrNone(sql.findCummulativesByCalificationId, {
+      calificationId: calificationId
+    });
+  }
 
-
+  async findCummulativesByCalificationIdAlumnId(calificationId: number, alumnId: number): Promise<Calification[]> {
+    return this.db.manyOrNone(sql.findCummulativesByCalificationIdAlumnId, {
+      calificationId: calificationId,
+      alumnId: alumnId
+    });
+  }
   // Returns all Calification records;
   async getAll(): Promise<Calification[]> {
     return this.db.manyOrNone(sql.findAll);
@@ -92,34 +111,26 @@ export class CalificationRepository {
   async update(data: Calification): Promise<Calification> {
     return this.db.oneOrNone(sql.update, data);
   }
-  // /**
-  //  * 
-  //  * DTO calification objective
-  //  * 
-  //  */
-  // async addCalificationObjective(calificationId: number, objectiveId: number): Promise<{ id: number, calificationId: number, objectiveId: number; }> {
-  //   return this.db.one(sqlCalificationObjective.add, { calificationId: calificationId, objectiveId: objectiveId });
-  // }
-
-  // async findCalificationObjectiveById(id: number): Promise<{ id: number, calificationId: number, objectiveId: number; }> {
-  //   return this.db.oneOrNone(sqlCalificationObjective.findById, {
-  //     id: id,
-  //   });
-  // }
-
-  // async findCalificationObjectiveByObjectId(objectId: number): Promise<{ id: number, calificationId: number, objectiveId: number; }[]> {
-  //   return this.db.manyOrNone(sqlCalificationObjective.findByObjectiveId, {
-  //     objectId: objectId,
-  //   });
-  // }
-
-  // async getAllCalificationObjective(): Promise<{ id: number, calificationId: number, objectiveId: number; }[]> {
-  //   return this.db.manyOrNone(sqlCalificationObjective.findAll);
-  // }
 
 
-  // async updateCalificationObjective(id: number, calificationId: number, objectiveId: number): Promise<{ id: number, calificationId: number, objectiveId: number; }> {
-  //   return this.db.oneOrNone(sqlCalificationObjective.update, { id: id, calificationId: calificationId, objectiveId: objectiveId });
-  // }
+  async batchUpdate(data: Calification[]): Promise<Calification[]> {
+
+    const query = `${this.pgp.helpers.update(data, this.getCalificationPgpToUpdate())} 
+    WHERE v.id = t.id ${this.getUpdatedColumnsNameToReturn()}`;
+    return this.db.manyOrNone(query);
+  }
+
+  getCalificationPgpToUpdate() {
+    return new this.pgp.helpers.ColumnSet(this.columnsToUpdate, { table: 'alumn_calification' });
+  }
+  private readonly columnsToUpdate = [
+    '?id',
+    { name: 'value', prop: 'value' },
+  ];
+
+  getUpdatedColumnsNameToReturn() {
+    return ` 
+    RETURNING t.id AS "id"
+       `;
+  }
 }
-
