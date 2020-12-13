@@ -30,3 +30,16 @@ export interface CalificationIndicator {
   calificationId?: number;
   indicatorId?: number;
 }
+export interface ReportData {
+  id?: number;
+  path?: string;
+}
+export interface CalificationReport {
+  alumnId: number;
+  alumnFullName: number;
+  date?: string;
+  run: string;
+  grade: number;
+  headTeacher: string;
+  subjects: any[];
+}

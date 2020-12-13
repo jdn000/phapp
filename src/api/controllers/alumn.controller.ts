@@ -4,6 +4,7 @@ import { Alumn } from '../../interfaces/Alumn';
 import { celebrate } from 'celebrate';
 import middlewares from '../middlewares';
 import { validators } from '../middlewares/inputValidators';
+import { CalificationReport } from '../../interfaces/Calification';
 
 @JsonController('/alumn')
 export class AlumnController {
@@ -23,6 +24,14 @@ export class AlumnController {
   async getById(@Param('id') id: number): Promise<Alumn> {
     return this.alumnService.getById(id);
   }
+
+  @Get('/grade/:gradeNumber')
+  @UseBefore(celebrate(validators.alumn.getReportInfo))
+  @UseBefore(middlewares.isAuth)
+  async getAllData(@Param('gradeNumber') gradeNumber: number): Promise<CalificationReport[]> {
+    return this.alumnService.getallData(gradeNumber);
+  }
+
   @Get('/run/:run')
   @UseBefore(celebrate(validators.alumn.getByRun))
   @UseBefore(middlewares.isAuth)
@@ -43,5 +52,11 @@ export class AlumnController {
     params.id = id;
     return this.alumnService.update(params);
 
+  }
+  @Get('/:id/report')
+  @UseBefore(celebrate(validators.alumn.get))
+  @UseBefore(middlewares.isAuth)
+  async getReportDataByAlumnId(@Param('id') id: number): Promise<CalificationReport> {
+    return this.alumnService.getAlumnData(id);
   }
 }

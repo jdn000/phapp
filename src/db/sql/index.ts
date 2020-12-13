@@ -31,6 +31,8 @@ export const alumn = {
   findAll: sql('alumn/findAll.sql'),
   findById: sql('alumn/findById.sql'),
   findByRun: sql('alumn/findByRun.sql'),
+  findAllAlumnDataByGradeId: sql('alumn/findAllAlumnDataByGradeId.sql'),
+  findAlumnDataById: sql('alumn/findAlumnDataById.sql'),
 };
 export const grade = {
   findAll: sql('grade/findAll.sql'),
@@ -57,6 +59,7 @@ export const calification = {
   findCummulativesByCalificationId: sql('calification/findCummulativesByCalificationId.sql'),
   findCummulativesByCalificationIdAlumnId: sql('calification/findCummulativesByCalificationIdAlumnId.sql'),
 };
+
 export const cummulative = {
   update: sql('cummulative/update.sql'),
   findAll: sql('cummulative/findAll.sql'),

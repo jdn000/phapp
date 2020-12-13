@@ -38,7 +38,6 @@ export class CalificationController {
   @UseBefore(celebrate(validators.calification.getByGradeAndSubject))
   @UseBefore(middlewares.isAuth)
   async getByGradeAndSubjectId(@Param('gradeId') gradeId: number, @Param('subjectId') subjectId: number): Promise<Calification[]> {
-
     return this.calificationService.getByGradeAndSubject(gradeId, subjectId);
   }
 

@@ -45,6 +45,12 @@ export const validators = {
         run: Joi.string().required(),
       }),
     },
+    getReportInfo: {
+      params: Joi.object({
+        gradeNumber: Joi.number().required(),
+      }),
+    },
+
     post: {
       body: Joi.object({
         run: Joi.string().required(),
