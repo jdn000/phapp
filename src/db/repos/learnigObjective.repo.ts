@@ -1,6 +1,6 @@
 import { IDatabase, IMain } from 'pg-promise';
 import { learningObjective as sql } from '../sql';
-import { LearningObjective } from '../../interfaces/LearningObjective';
+import { LearningObjective, ObjectiveData } from '../../interfaces/LearningObjective';
 
 export class LearningObjectiveRepository {
   /**
@@ -41,6 +41,11 @@ export class LearningObjectiveRepository {
     });
   }
 
+  async findAllDataById(id: number): Promise<ObjectiveData[]> {
+    return this.db.manyOrNone(sql.findAllDataById, {
+      objectiveId: id
+    });
+  }
   // Returns all LearningObjective records;
   async getAll(): Promise<LearningObjective[]> {
     return this.db.manyOrNone(sql.findAll);

@@ -17,6 +17,7 @@ export interface AlumnCalification {
   alumnId?: number;
   value?: number;
   idCalification?: number;
+  isCummulative?: boolean;
 }
 
 export interface BatchCalifications {

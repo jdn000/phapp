@@ -46,7 +46,6 @@ export class CalificationController {
   @UseBefore(celebrate(validators.calification.getByGradeAndSubject))
   @UseBefore(middlewares.isAuth)
   async getCummulativeByGradeAndSubjectId(@Param('gradeId') gradeId: number, @Param('subjectId') subjectId: number): Promise<CalificationCummulative[]> {
-
     return this.calificationService.getCummulativeByGradeAndSubject(gradeId, subjectId);
   }
 

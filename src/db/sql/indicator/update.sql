@@ -3,8 +3,7 @@ UPDATE
 SET
     name = ${name},
     description = ${description},
-    objective_id = ${objectiveId},
-    status=${status}
+    objective_id = ${objectiveId}
 WHERE 
     id = ${id} 
 

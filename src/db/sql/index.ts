@@ -47,6 +47,7 @@ export const learningObjective = {
   findById: sql('learningObjective/findById.sql'),
   findBySubjectId: sql('learningObjective/findBySubjectId.sql'),
   findByGradeIdAndSubjectId: sql('learningObjective/findByGradeIdAndSubjectId.sql'),
+  findAllDataById: sql('learningObjective/findAllDataById.sql'),
 };
 export const calification = {
   add: sql('calification/add.sql'),

@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { db } from '../db';
 import Logger from '../loaders/logger';
-import { LearningObjective } from '../interfaces/LearningObjective';
+import { LearningObjective, ObjectiveData } from '../interfaces/LearningObjective';
 
 @Service()
 export default class LearningObjectiveService {
@@ -34,6 +34,14 @@ export default class LearningObjectiveService {
   public async getByGradeIdAndSubjectId(subjectId: number, gradeId: number): Promise<LearningObjective[]> {
     try {
       return await db.learningObjective.findByGradeIdAndSubjectId(subjectId, gradeId);
+    } catch (error) {
+      Logger.error(error);
+      throw error;
+    }
+  }
+  public async getAllDataById(id: number): Promise<ObjectiveData[]> {
+    try {
+      return await db.learningObjective.findAllDataById(id);
     } catch (error) {
       Logger.error(error);
       throw error;

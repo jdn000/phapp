@@ -1,6 +1,6 @@
 import { JsonController, Param, Body, Get, Post, Put, UseBefore } from 'routing-controllers';
 import LearningObjectiveService from '../../services/learningObjective.service';
-import { LearningObjective } from '../../interfaces/LearningObjective';
+import { LearningObjective, ObjectiveData } from '../../interfaces/LearningObjective';
 import { celebrate } from 'celebrate';
 import middlewares from '../middlewares';
 import { validators } from '../middlewares/inputValidators';
@@ -50,5 +50,12 @@ export class LearningObjectiveController {
     params.id = id;
     return this.learningObjectiveService.update(params);
 
+  }
+
+  @Get('/all/:id')
+  @UseBefore(celebrate(validators.learningObjective.get))
+  @UseBefore(middlewares.isAuth)
+  async getAllDataById(@Param('id') id: number): Promise<ObjectiveData[]> {
+    return this.learningObjectiveService.getAllDataById(id);
   }
 }
