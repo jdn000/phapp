@@ -1,15 +1,16 @@
 SELECT
-    u.id,
-    u.username AS "username",
-    u.first_name AS "firstName",
-    u.last_name AS "lastName",
-    u.second_surname AS "secondSurname",
-    u.password AS "password",
-    u.salt AS "salt", 
-    u.email AS "email",
-
-    u.status AS "status"  
+    id,
+    username AS "username",
+    first_name AS "firstName",
+    last_name AS "lastName",
+    second_surname AS "secondSurname",
+    password AS "password",
+    role_id AS "roleId",
+    email AS "email",
+    status
+    
 FROM
     ${schema~}.user u
 WHERE
     username = ${username}
+

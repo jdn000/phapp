@@ -28,7 +28,6 @@ export class GradeController {
   // @UseBefore(celebrate(report.get))
   async downloadLabReport(@Param('id') id: number, @Res() response: Response): Promise<Response> {
     const { path } = await this.reportService.getById(id);
-
     await promisify<string, void>(response.download.bind(response))(path);
     this.reportService.deleteReportAfterDownload(path);
     return response;

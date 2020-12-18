@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { db } from '../db';
 import Logger from '../loaders/logger';
-import { BatchCalifications, Calification, CalificationIndicator } from '../interfaces/Calification';
+import { AlumnCalification, BatchCalifications, Calification, CalificationIndicator } from '../interfaces/Calification';
 import { CalificationCummulative } from '../interfaces/CummulativeCalification';
 
 @Service()
@@ -33,6 +33,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async getByGradeAndSubject(gradeId: number, subjectId: number): Promise<Calification[]> {
     try {
       return await db.calification.findByGradeAndSubject(gradeId, subjectId);
@@ -50,6 +51,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async getCummulativeByCalificationId(calificationId: number): Promise<CalificationCummulative[]> {
     try {
       return await db.calification.findCummulativeByCalificationId(calificationId);
@@ -58,6 +60,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async getCummulativeByCalificationIdAlumnId(calificationId: number, alumnId: number): Promise<Calification[]> {
     try {
       return await db.calification.findCummulativesByCalificationIdAlumnId(calificationId, alumnId);
@@ -66,6 +69,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async create(batchCalifications: BatchCalifications): Promise<BatchCalifications> {
     try {
       const savedBatchCalifications: BatchCalifications = {} as BatchCalifications;
@@ -80,6 +84,22 @@ export default class CalificationService {
         })));
       }
       return savedBatchCalifications;
+
+    } catch (error) {
+      Logger.error(error);
+      throw error;
+    }
+  }
+
+  public async createCalificationForNewAlumn(califications: AlumnCalification[]): Promise<AlumnCalification[]> {
+    try {
+      return await Promise.all(await db.calification.addAlumnCalifications(califications.map((calification) => {
+        return {
+          alumnId: calification.alumnId,
+          value: calification.value,
+          idCalification: calification.idCalification
+        };
+      })));
 
     } catch (error) {
       Logger.error(error);
@@ -138,6 +158,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async update(data: Calification[]): Promise<Calification[]> {
     try {
       return await db.calification.batchUpdate(data);
@@ -147,6 +168,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async updateSingleCalification(data: Calification): Promise<Calification> {
     try {
       return await db.calification.update(data);
@@ -156,6 +178,7 @@ export default class CalificationService {
       throw error;
     }
   }
+
   public async updateCummulatives(data: Calification[]): Promise<Calification[]> {
     try {
       return await db.cummulative.batchUpdate(data);

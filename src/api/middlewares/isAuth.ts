@@ -26,4 +26,5 @@ const isAuth = jwt({
   getToken: getTokenFromHeader, // How to extract the JWT from the request
 });
 
+
 export default isAuth;

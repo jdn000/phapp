@@ -1,6 +1,6 @@
 import { JsonController, Param, Body, Get, Post, Put, UseBefore } from 'routing-controllers';
 import CalificationService from '../../services/calification.service';
-import { BatchCalifications, Calification } from '../../interfaces/Calification';
+import { AlumnCalification, BatchCalifications, Calification } from '../../interfaces/Calification';
 import { celebrate } from 'celebrate';
 import middlewares from '../middlewares';
 import { validators } from '../middlewares/inputValidators';
@@ -68,6 +68,13 @@ export class CalificationController {
   @UseBefore(middlewares.isAuth)
   async post(@Body() data: BatchCalifications): Promise<BatchCalifications> {
     return this.calificationService.create(data);
+  }
+
+  @Post('/new')
+  // @UseBefore(celebrate(validators.calification.post))
+  @UseBefore(middlewares.isAuth)
+  async postCalificationForNewAlumn(@Body() data: AlumnCalification[]): Promise<AlumnCalification[]> {
+    return this.calificationService.createCalificationForNewAlumn(data);
   }
 
   @Post('/cummulative')

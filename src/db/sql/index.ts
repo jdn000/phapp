@@ -23,6 +23,7 @@ export const user = {
   findAll: sql('user/findAll.sql'),
   findById: sql('user/findById.sql'),
   findByUsername: sql('user/findByUsername.sql'),
+  updatePassword: sql('user/updatePassword.sql'),
 };
 
 export const alumn = {
@@ -33,6 +34,12 @@ export const alumn = {
   findByRun: sql('alumn/findByRun.sql'),
   findAllAlumnDataByGradeId: sql('alumn/findAllAlumnDataByGradeId.sql'),
   findAlumnDataById: sql('alumn/findAlumnDataById.sql'),
+};
+export const userSubject = {
+  add: sql('userSubject/add.sql'),
+  findAll: sql('userSubject/findAll.sql'),
+  findByUserId: sql('userSubject/findByUserId.sql'),
+  delete: sql('userSubject/delete.sql'),
 };
 export const grade = {
   findAll: sql('grade/findAll.sql'),

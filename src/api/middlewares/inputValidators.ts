@@ -34,6 +34,20 @@ export const validators = {
         id: Joi.number().required(),
       }),
     },
+    updatePassword: {
+      body: Joi.object({
+        username: Joi.string().min(2).max(20).required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().allow(null).allow('').required(),
+        password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/).required().error(new Error('La contraseña debe contener al menos 1 número y letra. Mínimo 6 caracteres')),
+        secondSurname: Joi.string().optional().allow(null).allow(''),
+        email: Joi.string().regex(/^\S+@\S+[\.][0-9a-z]+$/).error(new Error('El email ingresado no es válido ')),
+        status: Joi.boolean().optional().allow(null),
+      }),
+      params: Joi.object({
+        id: Joi.number().required(),
+      }),
+    },
   },
   alumn: {
     get: {
@@ -226,5 +240,8 @@ export const validators = {
         }),
       })
     },
+
   },
 };
+
+

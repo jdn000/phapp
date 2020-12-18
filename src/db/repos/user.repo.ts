@@ -58,4 +58,9 @@ export class UserRepository {
   async update(data: User): Promise<User> {
     return this.db.oneOrNone(sql.update, data);
   }
+  //update password
+  async updatePassword(userRecord: User): Promise<User> {
+
+    return this.db.oneOrNone(sql.updatePassword, { password: userRecord.password, salt: userRecord.salt, id: userRecord.id });
+  }
 }

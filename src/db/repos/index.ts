@@ -7,6 +7,7 @@ import { LearningObjectiveRepository } from './learnigObjective.repo';
 import { ReportRepository } from './report.repo';
 import { SubjectRepository } from './subject.repo';
 import { UserRepository } from './user.repo';
+import { UserSubjectRepository } from './userSubject.repo';
 
 
 // Database Interface Extensions:
@@ -20,6 +21,7 @@ interface IExtensions {
   indicator: IndicatorRepository;
   cummulative: CummulativeRepository;
   report: ReportRepository;
+  userSubject: UserSubjectRepository;
 }
 
 export {
@@ -32,5 +34,6 @@ export {
   CalificationRepository,
   IndicatorRepository,
   CummulativeRepository,
-  ReportRepository
+  ReportRepository,
+  UserSubjectRepository
 };

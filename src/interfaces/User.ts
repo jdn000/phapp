@@ -15,3 +15,8 @@ export interface UserInputDTO {
   username: string;
   password: string;
 }
+
+export interface UserSubject {
+  userId: number;
+  subjectId: number;
+}

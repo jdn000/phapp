@@ -43,6 +43,7 @@ export default class AuthService {
 
   public async signIn(user: UserInputDTO): Promise<{ user: User; token: string; }> {
     const userRecord = await db.user.findByUsername(user.username);
+    console.log(userRecord);
     if (!userRecord) {
       throw new Error('User not registered');
     }
@@ -79,14 +80,40 @@ export default class AuthService {
      * more information here: https://softwareontheroad.com/you-dont-need-passport
      */
     this.logger.silly(`Sign JWT for userId: ${user.id}`);
+    this.logger.silly(`${user}`);
     return jwt.sign(
       {
         id: user.id, // We are gonna use this in the middleware 'isAuth'
-        role: user.roleId,
+        roleId: user.roleId,
         user: user.username,
         exp: exp.getTime() / 1000,
       },
       config.jwtSecret,
     );
+  }
+  public async resetPassword(userInfo: User): Promise<User> {
+    try {
+      const salt = randomBytes(32);
+      this.logger.silly('Hashing password');
+      const hashedPassword = await argon2.hash(userInfo.password, { salt });
+      this.logger.silly('Creating user db record');
+      const userRecord = userInfo;
+      userRecord['salt'] = salt.toString('hex');
+      userRecord.password = hashedPassword;
+
+      const user: User = await db.user.updatePassword(userRecord);
+      // this.logger.silly('Generating JWT');
+      // const token: string = this.generateToken(user);
+      if (!userRecord) {
+        throw new Error('User cannot be created');
+      }
+      // this.eventDispatcher.dispatch(events.user.signUp, { user: user });
+      // delete user.password;
+      // delete user.salt;
+      return user;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
   }
 }

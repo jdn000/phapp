@@ -26,11 +26,14 @@ export class AlumnRepository {
   async add(data: Alumn): Promise<Alumn> {
 
     const alumn = await this.db.one(sql.add, data);
+
     if (await this.addGradeAlumn(data.gradeId, alumn.id)) {
+
       return alumn;
     }
     return {} as Alumn;
   }
+
   async addGradeAlumn(gradeId: number, alumnId: number): Promise<boolean> {
     const query = this.pgp.helpers.insert({ gradeId, alumnId }, this.getCalificationIndicatorToSave()) + this.getColumnsToShow();
     return this.db.oneOrNone(query);

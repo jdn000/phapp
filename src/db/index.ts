@@ -15,6 +15,7 @@ import {
   CummulativeRepository,
   ReportRepository
 } from './repos';
+import { UserSubjectRepository } from './repos/userSubject.repo';
 
 
 
@@ -41,6 +42,7 @@ const initOptions: IInitOptions<IExtensions> = {
     obj.indicator = new IndicatorRepository(obj, pgp);
     obj.cummulative = new CummulativeRepository(obj, pgp);
     obj.report = new ReportRepository(obj, pgp);
+    obj.userSubject = new UserSubjectRepository(obj, pgp);
   },
 };
 

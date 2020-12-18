@@ -6,8 +6,12 @@ SELECT
     cc.calification_id AS "calificationId",
     cc.value,
     cc.evaluation_number AS "evaluationNumber",
-    ac.id AS "mainCalificationId"
+    ac.id AS "mainCalificationId",
+    ci.indicator_id As "indicatorId"
 FROM ${ schema~ }.cummulative_calification cc
 INNER JOIN  ${ schema~ }.alumn_calification ac
 ON cc.calification_id=ac.id_calification AND cc.alumn_id=ac.alumn_id
-WHERE calification_id = ${calificationId}
+INNER JOIN  ${ schema~ }.calification_indicator ci
+ON cc.id=ci.calification_id
+WHERE cc.calification_id = ${calificationId}
+

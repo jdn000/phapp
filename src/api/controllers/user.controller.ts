@@ -18,9 +18,10 @@ export class UserController {
   }
 
   @Get('/:id')
-  @UseBefore(celebrate(validators.user.get))
+  // @UseBefore(celebrate(validators.user.get))
   @UseBefore(middlewares.isAuth)
   async getById(@Param('id') id: number): Promise<User> {
+    console.log(middlewares.isAuth);
     return this.userService.getById(id);
 
   }
