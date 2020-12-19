@@ -11,7 +11,7 @@ export const validators = {
       body: Joi.object({
         username: Joi.string().required(),
         password: Joi.string().required(),
-        fisrtName: Joi.string().required(),
+        firstName: Joi.string().required(),
         lastName: Joi.string(),
         secondSurname: Joi.string(),
         email: Joi.string(),

@@ -13,6 +13,7 @@ RETURNING
     last_name      "last_name",
     second_surname "secondSurName",
     status         "status",
+       role_id AS "roleId",
     email          "email"
 
     

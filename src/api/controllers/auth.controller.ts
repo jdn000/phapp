@@ -28,6 +28,7 @@ export class AuthController {
     console.log(data);
     Logger.debug('Calling Sign-In endpoint with body: %o', data);
     const { token } = await this.authService.signIn(data);
+
     return {
       status: true,
       data: {

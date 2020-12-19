@@ -43,7 +43,6 @@ export default class AuthService {
 
   public async signIn(user: UserInputDTO): Promise<{ user: User; token: string; }> {
     const userRecord = await db.user.findByUsername(user.username);
-    console.log(userRecord);
     if (!userRecord) {
       throw new Error('User not registered');
     }
@@ -87,6 +86,7 @@ export default class AuthService {
         roleId: user.roleId,
         user: user.username,
         exp: exp.getTime() / 1000,
+        status: user.status
       },
       config.jwtSecret,
     );

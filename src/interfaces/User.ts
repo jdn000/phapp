@@ -8,7 +8,7 @@ export interface User {
   secondSurname: string;
   email: string;
   roleId: number;
-  //  profileImage: string;
+  status?: boolean;
 }
 
 export interface UserInputDTO {

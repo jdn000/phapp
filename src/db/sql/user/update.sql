@@ -18,5 +18,6 @@ RETURNING
     last_name AS "lastName",
     second_surname AS "secondSurname",
     email AS "email",
+       role_id AS "roleId",
     status
     
