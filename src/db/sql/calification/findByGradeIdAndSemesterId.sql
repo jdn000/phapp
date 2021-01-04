@@ -13,6 +13,6 @@ FROM ${ schema~ }.calification c
 INNER JOIN ${ schema~ }.alumn_calification ca
 ON c.id=ca.id_calification
  INNER JOIN ${ schema~ }.semester s
- ON ca.semester_id=s.id
-WHERE c.grade_id = ${gradeId} AND c.subject_id = ${subjectId}
- AND s.status=true
+ON ca.semester_id=s.id
+WHERE c.grade_id = ${gradeId} AND  s.id = ${semesterId}
+

@@ -7,137 +7,264 @@ import moment from 'moment';
 
 import { CalificationReport } from '../interfaces/Calification';
 import { db } from '../db';
+import SemesterService from './semester.service';
 //import FileService from './file.service';
 //import { ReportFileName, ReportExtension, IReportFile } from '../interfaces/report';
 //import { ORDER, FONT_FAMILY, INFO } from '../config/reports.config';
 //import config from '../config';
 @Service()
 export default class PdfService {
-    constructor() { }
+    constructor(private readonly semesterService: SemesterService) { }
     async test(alumnsData: CalificationReport[]): Promise<any> {
+        const sem = await this.semesterService.getCurrentSemester();
         const doc = new PDFKit;
         const fileName = `${moment().format('DDMMYYYhhmmss')}file.pdf`;
         const filePath = path.resolve(__dirname, `../../public/reports/${fileName}`);
 
         doc.pipe(fs.createWriteStream(filePath));
-        alumnsData.forEach((alumnData) => {
-            this.drawTableLines(doc);
-            doc.image(path.resolve(__dirname, `../../public/logo.png`), 20, 20, {
-                fit: [50, 70],
-                align: 'left',
-            });
-            doc.fontSize(7);
-            doc.text('Escuela Paul Harris', 75, 20);
-            doc.text('escuela.paulharris@educacionelbosque.cl', 75, 30);
-            doc.text('Santa Águeda 1382', 75, 40);
-            doc.text('El Bosque', 75, 50);
-            doc.moveDown(5);
-            doc.fontSize(12);
-            doc.text(`INFORME DE NOTAS ANUALES`, {
-                width: 410,
-                align: 'center'
-            }
-            ).fontSize(9);
-            doc.text(`Planes y Programas Decreto N° 2960 exento del 19-12-2012
+        let isFirstSemester = false;
+        if (sem.code % 2 === 0) {
+            isFirstSemester = true;
+        }
+        if (!isFirstSemester) {
+            alumnsData.forEach((alumnData) => {
+                this.drawTableLines(doc);
+                doc.image(path.resolve(__dirname, `../../public/logo.png`), 20, 20, {
+                    fit: [50, 70],
+                    align: 'left',
+                });
+                doc.fontSize(7);
+                doc.text('Escuela Paul Harris', 75, 20);
+                doc.text('escuela.paulharris@educacionelbosque.cl', 75, 30);
+                doc.text('Santa Águeda 1382', 75, 40);
+                doc.text('El Bosque', 75, 50);
+                doc.moveDown(5);
+                doc.fontSize(12);
+                doc.text(`INFORME DE NOTAS ANUALES`, {
+                    width: 410,
+                    align: 'center'
+                }
+                ).fontSize(9);
+                doc.text(`Planes y Programas Decreto N° 2960 exento del 19-12-2012
 Reglamento de Evaluación y Promoción Escolar Decreto Exento N° 511 del año 1997
 Decreto N° 824 del año 1986 Rol Base de Datos N°9718-7`, {
-                width: 410,
-                align: 'center'
-            });
-            doc.moveDown(5);
-            doc.text('Run alumno:', 395, 160);
-            doc.text('Fecha:', 395, 180);
-            doc.text('Notas parciales segundo semestre', 250, 200);
-            doc.text('P1°S', 485, 200);
-            doc.text('P2°S', 515, 200);
-            doc.text('P.F.', 545, 200);
-            this.row(doc, 150);//1
-            doc.text('Nombre:', 35, 160);//nombre
-            this.row(doc, 170);//2
-            doc.text('Curso:', 35, 180);
-            this.row(doc, 190);//3
-            doc.text('Asignaturas', 35, 200);
-            this.row(doc, 210);
-            // //    doc.text('Lenguaje y Comunicación', 35, 220);
-            this.row(doc, 230);
-            // //    doc.text('Idioma extranjero Inglés', 35, 240);
-            this.row(doc, 250);
-            // //   doc.text('Matemática', 35, 260);
-            this.row(doc, 270);
-            // //  doc.text('Historia y Geografía y Ciencias Sociales', 35, 280);
-            this.row(doc, 290);
-            // //  doc.text('Ciencias Naturales', 35, 300);
-            this.row(doc, 310);
-            // //  doc.text('Artes Visuales', 35, 320);
-            this.row(doc, 330);
-            // //  doc.text('Música', 35, 340);
-            this.row(doc, 350);
-            // //   doc.text('Educación Física  y Salud', 35, 360);
-            this.row(doc, 370);
-            //  doc.text('Tecnología ', 35, 380);
-            this.row(doc, 390);
-            doc.text('Promedio General', 35, 400);
-            doc.text('José Nazar Clavería', 420, 658);
-            doc.text('Profesor(a) Jefe', 100, 670);
-            doc.text('Director', 460, 670);
-            //nombre 
-            doc.text(alumnData.alumnFullName, 75, 160);
-            //run
-            doc.text(alumnData.run, 450, 160);
-            //curso
-            doc.text(alumnData.grade, 65, 180);
-            // fecha
-            doc.text(alumnData.date, 425, 180); //TODO poner fecha actual
-            let x = 220;
-            let y = 220;
-            const startOn = 35;
-            let total = 0;
-            let total1s = 0;
-            let total2s = 0;
-            alumnData.subjects.forEach((subject) => {
-                this.row(doc, x - 10);
-                doc.text(subject.name, 35, y);
-                subject.califications.forEach((c) => {
-                    doc.text(c, x, y);
-                    x += 30;
+                    width: 410,
+                    align: 'center'
                 });
-                doc.text(subject.firstSemesterAvg, 490, y); //1er semestre
-                const a = subject.califications.reduce((a, b) => a + b, 0);
-                let avg = (a) / subject.califications.length;
+                doc.moveDown(5);
+                doc.text('Run alumno:', 395, 160);
+                doc.text('Fecha:', 395, 180);
+                doc.text('Notas parciales segundo semestre', 250, 200);
+                doc.text('P1°S', 485, 200);
+                doc.text('P2°S', 515, 200);
+                doc.text('P.F.', 545, 200);
+                this.row(doc, 150);//1
+                doc.text('Nombre:', 35, 160);//nombre
+                this.row(doc, 170);//2
+                doc.text('Curso:', 35, 180);
+                this.row(doc, 190);//3
+                doc.text('Asignaturas', 35, 200);
+                this.row(doc, 210);
+                // //    doc.text('Lenguaje y Comunicación', 35, 220);
+                this.row(doc, 230);
+                // //    doc.text('Idioma extranjero Inglés', 35, 240);
+                this.row(doc, 250);
+                // //   doc.text('Matemática', 35, 260);
+                this.row(doc, 270);
+                // //  doc.text('Historia y Geografía y Ciencias Sociales', 35, 280);
+                this.row(doc, 290);
+                // //  doc.text('Ciencias Naturales', 35, 300);
+                this.row(doc, 310);
+                // //  doc.text('Artes Visuales', 35, 320);
+                this.row(doc, 330);
+                // //  doc.text('Música', 35, 340);
+                this.row(doc, 350);
+                // //   doc.text('Educación Física  y Salud', 35, 360);
+                this.row(doc, 370);
+                //  doc.text('Tecnología ', 35, 380);
+                this.row(doc, 390);
+                doc.text('Promedio General', 35, 400);
+                doc.text('José Nazar Clavería', 420, 658);
+                doc.text('Profesor(a) Jefe', 100, 670);
+                doc.text('Director', 460, 670);
+                //nombre 
+                doc.text(alumnData.alumnFullName, 75, 160);
+                //run
+                doc.text(alumnData.run, 450, 160);
+                //curso
+                doc.text(alumnData.grade, 65, 180);
+                // fecha
+                doc.text(alumnData.date, 425, 180); //TODO poner fecha actual
+                let x = 220;
+                let y = 220;
+                const startOn = 35;
+                let total = 0;
+                let total1s = 0;
+                let total2s = 0;
+                alumnData.subjects.forEach((subject) => {
+                    this.row(doc, x - 10);
+                    doc.text(subject.name, 35, y);
+                    subject.califications.forEach((c) => {
+                        doc.text(c, x, y);
+                        x += 30;
+                    });
+                    //   doc.text(subject.firstSemesterAvg, 490, y); //1er semestre
+                    const a = subject.califications.reduce((a, b) => a + b, 0);
+                    let avg = (a) / subject.califications.length;
 
-                doc.text(Math.round(avg), 520, y);// 2do semestre
-                let totalAvg = (avg + subject.firstSemesterAvg) / 2;
-                doc.text(Math.round(totalAvg), 550, y); //final
-                total += totalAvg;  //final
-                total1s += subject.firstSemesterAvg;
-                total2s += avg;
-                y += 20;
-                x = 220;
+                    doc.text(Number((avg).toFixed(1)), 490, y);// 2do semestre
+
+                    //    let totalAvg = (avg + subject.firstSemesterAvg) / 2;
+                    //  doc.text(Number((totalAvg).toFixed(1)), 550, y); //final
+                    //  total += totalAvg;  //final
+                    total1s += avg;
+
+                    //    total2s += avg;
+                    y += 20;
+                    x = 220;
+                });
+                ///////////notas//
+                // doc.text('N1', 220, 220);
+                // doc.text('N2', 250, 220);
+                // doc.text('N3', 280, 220);
+                // doc.text('N4', 310, 220);
+                // doc.text('N5', 340, 220);
+                // doc.text('N6', 370, 220);
+                // doc.text('N7', 400, 220);
+                // doc.text('N8', 430, 220);
+                // doc.text('N9', 460, 220);
+                // promedios
+
+                doc.text(Number((total1s / alumnData.subjects.length).toFixed(1)), 490, 400);//final 1s
+                // doc.text('2S', 520, 220);
+                //  doc.text(Number((total2s / alumnData.subjects.length).toFixed(1)), 520, 400);//final 2s
+                //   
+                //  doc.text(Number((total / alumnData.subjects.length).toFixed(1)), 550, 400);// final
+                // nombre profesor
+                doc.text(alumnData.headTeacher, 60, 658);
+                doc.addPage();
             });
-            ///////////notas//
-            // doc.text('N1', 220, 220);
-            // doc.text('N2', 250, 220);
-            // doc.text('N3', 280, 220);
-            // doc.text('N4', 310, 220);
-            // doc.text('N5', 340, 220);
-            // doc.text('N6', 370, 220);
-            // doc.text('N7', 400, 220);
-            // doc.text('N8', 430, 220);
-            // doc.text('N9', 460, 220);
-            // promedios
 
-            doc.text(Math.round(total1s / alumnData.subjects.length), 490, 400);//final 1s
-            // doc.text('2S', 520, 220);
-            doc.text(Math.round(total2s / alumnData.subjects.length), 520, 400);//final 2s
-            //   
-            doc.text(Math.round(total / alumnData.subjects.length), 550, 400);// final
 
-            // nombre profesor
-            doc.text(alumnData.headTeacher, 60, 658);
-            doc.addPage();
+        } else {
 
-        });
+            alumnsData.forEach((alumnData) => {
+                this.drawTableLines(doc);
+                doc.image(path.resolve(__dirname, `../../public/logo.png`), 20, 20, {
+                    fit: [50, 70],
+                    align: 'left',
+                });
+                doc.fontSize(7);
+                doc.text('Escuela Paul Harris', 75, 20);
+                doc.text('escuela.paulharris@educacionelbosque.cl', 75, 30);
+                doc.text('Santa Águeda 1382', 75, 40);
+                doc.text('El Bosque', 75, 50);
+                doc.moveDown(5);
+                doc.fontSize(12);
+                doc.text(`INFORME DE NOTAS ANUALES`, {
+                    width: 410,
+                    align: 'center'
+                }
+                ).fontSize(9);
+                doc.text(`Planes y Programas Decreto N° 2960 exento del 19-12-2012
+Reglamento de Evaluación y Promoción Escolar Decreto Exento N° 511 del año 1997
+Decreto N° 824 del año 1986 Rol Base de Datos N°9718-7`, {
+                    width: 410,
+                    align: 'center'
+                });
+                doc.moveDown(5);
+                doc.text('Run alumno:', 395, 160);
+                doc.text('Fecha:', 395, 180);
+                doc.text('Notas parciales segundo semestre', 250, 200);
+                doc.text('P1°S', 485, 200);
+                doc.text('P2°S', 515, 200);
+                doc.text('P.F.', 545, 200);
+                this.row(doc, 150);//1
+                doc.text('Nombre:', 35, 160);//nombre
+                this.row(doc, 170);//2
+                doc.text('Curso:', 35, 180);
+                this.row(doc, 190);//3
+                doc.text('Asignaturas', 35, 200);
+                this.row(doc, 210);
+                // //    doc.text('Lenguaje y Comunicación', 35, 220);
+                this.row(doc, 230);
+                // //    doc.text('Idioma extranjero Inglés', 35, 240);
+                this.row(doc, 250);
+                // //   doc.text('Matemática', 35, 260);
+                this.row(doc, 270);
+                // //  doc.text('Historia y Geografía y Ciencias Sociales', 35, 280);
+                this.row(doc, 290);
+                // //  doc.text('Ciencias Naturales', 35, 300);
+                this.row(doc, 310);
+                // //  doc.text('Artes Visuales', 35, 320);
+                this.row(doc, 330);
+                // //  doc.text('Música', 35, 340);
+                this.row(doc, 350);
+                // //   doc.text('Educación Física  y Salud', 35, 360);
+                this.row(doc, 370);
+                //  doc.text('Tecnología ', 35, 380);
+                this.row(doc, 390);
+                doc.text('Promedio General', 35, 400);
+                doc.text('José Nazar Clavería', 420, 658);
+                doc.text('Profesor(a) Jefe', 100, 670);
+                doc.text('Director', 460, 670);
+                //nombre 
+                doc.text(alumnData.alumnFullName, 75, 160);
+                //run
+                doc.text(alumnData.run, 450, 160);
+                //curso
+                doc.text(alumnData.grade, 65, 180);
+                // fecha
+                doc.text(alumnData.date, 425, 180); //TODO poner fecha actual
+                let x = 220;
+                let y = 220;
+                const startOn = 35;
+                let total = 0;
+                let total1s = 0;
+                let total2s = 0;
+                alumnData.subjects.forEach((subject) => {
+                    this.row(doc, x - 10);
+                    doc.text(subject.name, 35, y);
+                    subject.califications.forEach((c) => {
+                        doc.text(c, x, y);
+                        x += 30;
+                    });
+                    doc.text(subject.firstSemesterAvg, 490, y); //1er semestre
+                    const a = subject.califications.reduce((a, b) => a + b, 0);
+                    let avg = (a) / subject.califications.length;
 
+                    doc.text(Number((avg).toFixed(1)), 520, y);// 2do semestre
+
+                    let totalAvg = (avg + subject.firstSemesterAvg) / 2;
+                    doc.text(Number((totalAvg).toFixed(1)), 550, y); //final
+                    total += totalAvg;  //final
+                    total1s += subject.firstSemesterAvg;
+                    total2s += avg;
+                    y += 20;
+                    x = 220;
+                });
+                ///////////notas//
+                // doc.text('N1', 220, 220);
+                // doc.text('N2', 250, 220);
+                // doc.text('N3', 280, 220);
+                // doc.text('N4', 310, 220);
+                // doc.text('N5', 340, 220);
+                // doc.text('N6', 370, 220);
+                // doc.text('N7', 400, 220);
+                // doc.text('N8', 430, 220);
+                // doc.text('N9', 460, 220);
+                // promedios
+
+                doc.text(Number((total1s / alumnData.subjects.length).toFixed(1)), 490, 400);//final 1s
+                // doc.text('2S', 520, 220);
+                doc.text(Number((total2s / alumnData.subjects.length).toFixed(1)), 520, 400);//final 2s
+                //   
+                doc.text(Number((total / alumnData.subjects.length).toFixed(1)), 550, 400);// final
+                // nombre profesor
+                doc.text(alumnData.headTeacher, 60, 658);
+                doc.addPage();
+            });
+        }
         doc.end();
         return await db.alumn.addReport({ path: filePath });
 

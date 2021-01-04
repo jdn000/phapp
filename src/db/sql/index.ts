@@ -46,6 +46,12 @@ export const grade = {
 };
 export const subject = {
   findAll: sql('subject/findAll.sql'),
+
+};
+export const semester = {
+  findAll: sql('semester/findAll.sql'),
+  findCurrentSemester: sql('semester/findCurrentSemester.sql'),
+  update: sql('semester/update.sql'),
 };
 export const learningObjective = {
   add: sql('learningObjective/add.sql'),
@@ -63,6 +69,7 @@ export const calification = {
   findById: sql('calification/findById.sql'),
   findByAlumnId: sql('calification/findByAlumnId.sql'),
   findByGradeIdAndSubjectId: sql('calification/findByGradeIdAndSubjectId.sql'),
+  findByGradeIdAndSemesterId: sql('calification/findByGradeIdAndSemesterId.sql'),
   findCummulativesByGradeAndSubject: sql('calification/findCummulativesByGradeAndSubject.sql'),
   findCummulativesByCalificationId: sql('calification/findCummulativesByCalificationId.sql'),
   findCummulativesByCalificationIdAlumnId: sql('calification/findCummulativesByCalificationIdAlumnId.sql'),

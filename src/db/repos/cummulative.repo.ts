@@ -1,8 +1,8 @@
 import { IDatabase, IMain } from 'pg-promise';
-import { cummulative as sql } from '../sql';
+import { cummulative as sql, semester as semesterSql } from '../sql';
 import { CalificationCummulative, CummulativeCalification } from '../../interfaces/CummulativeCalification';
 import { Calification } from '../../interfaces/Calification';
-
+import { Semester } from '../../interfaces/Semester';
 
 export class CummulativeRepository {
   /**
@@ -20,7 +20,6 @@ export class CummulativeRepository {
 
   }
 
-
   // async addCummulative(data: CummulativeCalification[]): Promise<CummulativeCalification[]> {
   //   const query = this.pgp.helpers.insert(data, this.getCsToSave()) + this.getColumnsNameToReturn();
   //   return this.db.manyOrNone(query);
@@ -32,6 +31,7 @@ export class CummulativeRepository {
     { name: 'evaluation_number', prop: 'evaluationNumber' },
     { name: 'grade_id', prop: 'gradeId' },
     { name: 'subject_id', prop: 'subjectId' },
+    { name: 'semester_id', prop: 'semesterId' },
   ];
   getColumnsNameToReturn() {
     return ` RETURNING id AS "id",
@@ -40,7 +40,8 @@ export class CummulativeRepository {
     grade_id AS "gradeId",
     subject_id AS "subjectId",
     value,
-    evaluation_number AS "evaluationNumber"
+    evaluation_number AS "evaluationNumber",
+    semester_id AS "semesterId" 
     `;
   }
   getCsToSave() {
@@ -48,7 +49,20 @@ export class CummulativeRepository {
   }
 
   async addCummulativeCalifications(data: Calification[]): Promise<Calification[]> {
-    const query = this.pgp.helpers.insert(data, this.getCsToSave()) + this.getColumnsNameToReturn();
+
+    const currentSemester: Semester = await this.db.oneOrNone(semesterSql.findCurrentSemester);
+    const dataWithSemester = data.map((d) => {
+      return {
+        calificationId: d.calificationId,
+        alumnId: d.alumnId,
+        gradeId: d.gradeId,
+        subjectId: d.semesterId,
+        evaluationNumber: d.evaluationNumber,
+        value: d.value,
+        semesterId: currentSemester.id
+      };
+    });
+    const query = this.pgp.helpers.insert(dataWithSemester, this.getCsToSave()) + this.getColumnsNameToReturn();
 
     return this.db.manyOrNone(query);
   }
@@ -114,7 +128,6 @@ export class CummulativeRepository {
     { name: 'value', prop: 'value' },
 
   ];
-
   getUpdatedColumnsNameToReturn() {
     return ` RETURNING
     t.id AS "id",

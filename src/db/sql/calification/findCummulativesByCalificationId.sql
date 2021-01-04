@@ -13,5 +13,7 @@ INNER JOIN  ${ schema~ }.alumn_calification ac
 ON cc.calification_id=ac.id_calification AND cc.alumn_id=ac.alumn_id
 INNER JOIN  ${ schema~ }.calification_indicator ci
 ON cc.id=ci.calification_id
-WHERE cc.calification_id = ${calificationId}
+INNER JOIN ${ schema~ }.semester s
+ON cc.semester_id=s.id
+WHERE cc.calification_id = ${calificationId} AND s.status=true
 

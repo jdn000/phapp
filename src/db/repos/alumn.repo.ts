@@ -100,6 +100,7 @@ export class AlumnRepository {
     s.id AS "id",
     s.description AS "name",
     pa.value AS "firstSemesterAvg",
+    se.code,
     json_agg(
     ac.value
      ) AS "califications"
@@ -109,15 +110,16 @@ export class AlumnRepository {
     INNER JOIN ${process.env.SCHEMA_NAME}.subject s
     ON c.subject_id=s.id
    LEFT JOIN ${process.env.SCHEMA_NAME}.previous_avg pa
-   ON c.grade_id=pa.grade_id
+   ON c.grade_id=pa.grade_id AND ac.alumn_id=pa.alumn_id AND s.id=pa.subject_id
+   INNER JOIN ${process.env.SCHEMA_NAME}.semester se
+   ON ac.semester_id=se.id AND se.status=true
    WHERE  ac.alumn_id=${alumnId}
-   group by  s.id,s.description, s.id, pa.value`;
+   group by  s.id,s.description, s.id, pa.value,se.code`;
     return this.db.manyOrNone(queryString);
   }
   async update(data: Alumn): Promise<Alumn> {
     return this.db.oneOrNone(sql.update, data);
   }
-
   async addReport(data: ReportData): Promise<ReportData> {
     const query = this.pgp.helpers.insert(data, this.getReportColumnsToSave()) + this.getReportColumns();
     return this.db.oneOrNone(query);

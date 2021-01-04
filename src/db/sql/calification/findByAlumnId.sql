@@ -9,3 +9,4 @@ FROM ${ schema~ }.calification c
 INNER JOIN ${ schema~ }.alumn al 
 ON c.id=al.id_calification
 WHERE al.alumn_id = ${alumnId}
+

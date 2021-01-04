@@ -10,6 +10,7 @@ export interface Calification {
   alumnId?: number;
   value?: number;
   calificationId?: number; // para notas acumulativas
+  semesterId?: number;
 }
 
 export interface AlumnCalification {

@@ -1,7 +1,9 @@
 import { IDatabase, IMain } from 'pg-promise';
-import { calification as sql } from '../sql';
+import { calification as sql, semester as semesterSql } from '../sql';
+
 import { AlumnCalification, Calification, CalificationIndicator } from '../../interfaces/Calification';
 import { CalificationCummulative } from '../../interfaces/CummulativeCalification';
+import { Semester } from '../../interfaces/Semester';
 
 export class CalificationRepository {
   /**
@@ -24,19 +26,30 @@ export class CalificationRepository {
 
   // ===============
   async addAlumnCalifications(data: AlumnCalification[]): Promise<AlumnCalification[]> {
-    const query = this.pgp.helpers.insert(data, this.getCsToSave()) + this.getColumnsNameToReturn();
+    const currentSemester: Semester = await this.db.oneOrNone(semesterSql.findCurrentSemester);
+    const dataWithSemester = data.map((d) => {
+      return {
+        idCalification: d.idCalification,
+        alumnId: d.alumnId,
+        value: d.value,
+        semesterId: currentSemester.id
+      };
+    });
+    const query = this.pgp.helpers.insert(dataWithSemester, this.getCsToSave()) + this.getColumnsNameToReturn();
     return this.db.manyOrNone(query);
   }
   private readonly columnsToSave = [
     { name: 'id_calification', prop: 'idCalification' },
     { name: 'alumn_id', prop: 'alumnId' },
-    { name: 'value', prop: 'value' }
+    { name: 'value', prop: 'value' },
+    { name: 'semester_id', prop: 'semesterId' },
   ];
   getColumnsNameToReturn() {
     return ` RETURNING id AS "id",
     alumn_id AS "alumnId",
     id_calification AS "idCalification",
-    value 
+    value,
+    semester_id AS "semesterId" 
     `;
   }
   getCsToSave() {
@@ -83,6 +96,12 @@ export class CalificationRepository {
   async findByGradeAndSubject(gradeId: number, subjectId: number): Promise<Calification[]> {
     return this.db.manyOrNone(sql.findByGradeIdAndSubjectId, {
       gradeId: gradeId, subjectId: subjectId,
+    });
+  }
+  async findByGradeAndSemesterId(gradeId: number, semesterId: number): Promise<Calification[]> {
+    console.log(gradeId, semesterId);
+    return this.db.manyOrNone(sql.findByGradeIdAndSemesterId, {
+      gradeId: gradeId, semesterId: semesterId,
     });
   }
   async findCummulativeByGradeAndSubject(gradeId: number, subjectId: number): Promise<CalificationCummulative[]> {

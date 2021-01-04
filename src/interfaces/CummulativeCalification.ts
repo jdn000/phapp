@@ -4,6 +4,7 @@ export interface CummulativeCalification {
   calificationId?: number;
   value: number;
   evaluationNumber?: number;
+  semesterId?: number;
 }
 
 export interface CalificationCummulative {

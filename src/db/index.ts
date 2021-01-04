@@ -13,7 +13,8 @@ import {
   CalificationRepository,
   IndicatorRepository,
   CummulativeRepository,
-  ReportRepository
+  ReportRepository,
+  SemesterRepository
 } from './repos';
 import { UserSubjectRepository } from './repos/userSubject.repo';
 
@@ -43,6 +44,7 @@ const initOptions: IInitOptions<IExtensions> = {
     obj.cummulative = new CummulativeRepository(obj, pgp);
     obj.report = new ReportRepository(obj, pgp);
     obj.userSubject = new UserSubjectRepository(obj, pgp);
+    obj.semester = new SemesterRepository(obj, pgp);
   },
 };
 

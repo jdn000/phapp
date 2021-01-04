@@ -5,7 +5,7 @@ import { Alumn } from '../interfaces/Alumn';
 import { CalificationReport } from '../interfaces/Calification';
 import _ from 'lodash';
 import CalificationService from './calification.service';
-import { alumn, indicator } from '../db/sql';
+
 @Service()
 export default class AlumnService {
   constructor(private readonly calificationService: CalificationService) { }

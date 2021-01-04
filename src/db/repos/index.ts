@@ -5,6 +5,7 @@ import { GradeRepository } from './grade.repo';
 import { IndicatorRepository } from './indicator.repo';
 import { LearningObjectiveRepository } from './learnigObjective.repo';
 import { ReportRepository } from './report.repo';
+import { SemesterRepository } from './semester.repo';
 import { SubjectRepository } from './subject.repo';
 import { UserRepository } from './user.repo';
 import { UserSubjectRepository } from './userSubject.repo';
@@ -22,6 +23,7 @@ interface IExtensions {
   cummulative: CummulativeRepository;
   report: ReportRepository;
   userSubject: UserSubjectRepository;
+  semester: SemesterRepository;
 }
 
 export {
@@ -35,5 +37,6 @@ export {
   IndicatorRepository,
   CummulativeRepository,
   ReportRepository,
-  UserSubjectRepository
+  UserSubjectRepository,
+  SemesterRepository
 };
