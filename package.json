@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node  --transpile-only ./src/app.ts --max_old_space_size=2048",
-    "start": "nodemon",
+    "start": "ts-node  --transpile-only ./src/app.ts",
     "start:prod": "npm run build:prod && pm2 start ecosystem.config.js --env production",
     "inspect": "nodemon --inspect src/app.ts",
     "test": "jest",
