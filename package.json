@@ -7,7 +7,7 @@
   },
   "main": "src/app.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "  npm run clean && tsc && npm run copy-files",
     "dev": "ts-node  --transpile-only ./src/app.ts --max_old_space_size=2048",
     "start": "ts-node  --transpile-only ./src/app.ts",
     "start:prod": "npm run build:prod && pm2 start ecosystem.config.js --env production",
@@ -17,8 +17,9 @@
     "lint:eslint": "eslint --ignore-path .gitignore --ext .ts",
     "lint:js": "npm run lint:eslint src/",
     "lint:fix": "npm run lint:js -- --fix",
-    "copy-static": "copyfiles -E -u 1 -e \"**/*.ts\" \"src/db/sql/sql/**\" \"build/\"",
-    "production": "set NODE_ENV=production && node build/app.js"
+    "copy-files": "copyfiles -u 1 \"src/db/sql/**/*.sql\" build",
+    "production": "set NODE_ENV=production && node build/app.js",
+    "clean": "rimraf build/"
   },
   "repository": {
     "type": "git",
@@ -82,13 +83,14 @@
     "@types/pg": "^7.14.1",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
-    "copyfiles": "^2.4.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-prettier": "^3.0.1",
     "jest": "^24.1.0",
     "nodemon": "^2.0.1",
     "prettier": "^1.17.0",
+    "rimraf": "^3.0.2",
     "sonarqube-scanner": "^2.7.0",
     "ts-jest": "^24.0.0",
     "ts-node": "^7.0.1",
