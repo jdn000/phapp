@@ -81,7 +81,7 @@ export const validators = {
         names: Joi.string().required(),
         lastName: Joi.string().required(),
         secondSurname: Joi.string().optional(),
-        gradeId: Joi.number(),
+        gradeId: Joi.any().optional(),
 
       }),
       params: Joi.object({

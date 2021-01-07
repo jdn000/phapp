@@ -14,5 +14,7 @@ export class GradeRepository {
   async getAll(): Promise<Grade[]> {
     return this.db.manyOrNone(sql.findAll);
   }
-
+  async update(data: Grade): Promise<Grade> {
+    return this.db.oneOrNone(sql.update, data);
+  }
 }

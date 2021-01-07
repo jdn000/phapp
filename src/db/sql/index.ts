@@ -43,6 +43,7 @@ export const userSubject = {
 };
 export const grade = {
   findAll: sql('grade/findAll.sql'),
+  update: sql('grade/update.sql'),
 };
 export const subject = {
   findAll: sql('subject/findAll.sql'),

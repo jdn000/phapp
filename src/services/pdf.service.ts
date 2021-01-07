@@ -94,7 +94,7 @@ Decreto N° 824 del año 1986 Rol Base de Datos N°9718-7`, {
                 //curso
                 doc.text(alumnData.grade, 65, 180);
                 // fecha
-                doc.text(alumnData.date, 425, 180); //TODO poner fecha actual
+                doc.text(moment().format("DD-MM-YYYY"), 425, 180); //TODO poner fecha actual
                 let x = 220;
                 let y = 220;
                 const startOn = 35;
@@ -215,7 +215,7 @@ Decreto N° 824 del año 1986 Rol Base de Datos N°9718-7`, {
                 //curso
                 doc.text(alumnData.grade, 65, 180);
                 // fecha
-                doc.text(alumnData.date, 425, 180); //TODO poner fecha actual
+                doc.text(moment().format("DD-MM-YYYY"), 425, 180); //TODO poner fecha actual
                 let x = 220;
                 let y = 220;
                 const startOn = 35;
@@ -347,7 +347,7 @@ Decreto N° 824 del año 1986 Rol Base de Datos N°9718-7`, {
             .lineTo(420, 390)
             .stroke();
         doc.lineCap('butt')
-            .moveTo(450, 190)
+            .moveTo(450, 210)
             .lineTo(450, 390)
             .stroke();
         doc.lineCap('butt')

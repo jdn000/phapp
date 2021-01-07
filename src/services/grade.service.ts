@@ -16,4 +16,13 @@ export default class GradeService {
     }
   }
 
+  public async update(data: Grade): Promise<Grade> {
+    try {
+      return await db.grade.update(data);
+    } catch (error) {
+      Logger.error(error);
+      throw error;
+    }
+  }
+
 }
