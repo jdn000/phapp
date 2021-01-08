@@ -7,8 +7,8 @@ INSERT INTO
         last_name,
         second_surname,
         email,
-
-        role_id
+        role_id,
+        created_at
     )
 VALUES
     (
@@ -19,6 +19,6 @@ VALUES
         ${lastName},
         ${secondSurname},
         ${email},
-
-        ${roleId}
+        ${roleId},
+         now()
     ) RETURNING *

@@ -43,6 +43,7 @@ export const validators = {
         secondSurname: Joi.string().optional().allow(null).allow(''),
         email: Joi.string().regex(/^\S+@\S+[\.][0-9a-z]+$/).error(new Error('El email ingresado no es válido ')),
         status: Joi.boolean().optional().allow(null),
+        roleId: Joi.number().optional(),
       }),
       params: Joi.object({
         id: Joi.number().required(),

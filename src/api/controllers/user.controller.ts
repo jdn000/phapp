@@ -4,11 +4,12 @@ import { User } from '../../interfaces/User';
 import { celebrate } from 'celebrate';
 import middlewares from '../middlewares';
 import { validators } from '../middlewares/inputValidators';
+import AuthService from '../../services/auth.service';
 
 @JsonController('/user')
 export class UserController {
 
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService, private readonly authService: AuthService) { }
 
   @Get('/')
   @UseBefore(middlewares.isAuth)
@@ -21,7 +22,6 @@ export class UserController {
   @UseBefore(celebrate(validators.user.get))
   @UseBefore(middlewares.isAuth)
   async getById(@Param('id') id: number): Promise<User> {
-    console.log(middlewares.isAuth);
     return this.userService.getById(id);
 
   }
@@ -29,8 +29,11 @@ export class UserController {
   @Post('/')
   @UseBefore(celebrate(validators.user.post))
   @UseBefore(middlewares.isAuth)
-  async post(@Body() data: User): Promise<User> {
-    return this.userService.create(data);
+  async post(@Body() data: User): Promise<string> {
+    const { token } = await this.authService.signUp(data);
+
+    return token;
+
   }
 
   @Put('/:id')

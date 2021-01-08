@@ -22,7 +22,7 @@ export default class AuthService {
       const hashedPassword = await argon2.hash(userInputDTO.password, { salt });
       this.logger.silly('Creating user db record');
       const userRecord = userInputDTO;
-      userRecord['salt'] = salt.toString('hex');
+      userRecord.salt = salt.toString('hex');
       userRecord.password = hashedPassword;
       const user: User = await db.user.add(userRecord);
       this.logger.silly('Generating JWT');
@@ -98,7 +98,7 @@ export default class AuthService {
       const hashedPassword = await argon2.hash(userInfo.password, { salt });
       this.logger.silly('Creating user db record');
       const userRecord = userInfo;
-      userRecord['salt'] = salt.toString('hex');
+      userRecord.salt = salt.toString('hex');
       userRecord.password = hashedPassword;
 
       const user: User = await db.user.updatePassword(userRecord);

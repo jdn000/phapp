@@ -25,7 +25,7 @@ export class AuthController {
 
   @Post('/signin')
   async SignIn(@Body() data: UserInputDTO) {
-    console.log(data);
+
     Logger.debug('Calling Sign-In endpoint with body: %o', data);
     const { token } = await this.authService.signIn(data);
 
