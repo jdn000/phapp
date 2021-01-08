@@ -93,7 +93,7 @@ export default class AlumnService {
           mainCalificationId: cummulative.mainCalificationId
         };
       });
-      let summativeToDb = summativesArray ? await db.calification.addAlumnCalifications(summativesArray) : [];
+      let summativeToDb = summativesArray.length ? await db.calification.addAlumnCalifications(summativesArray) : [];
       if (cummulativesArray.length) {
         const cummulativesToDb = await db.cummulative.addCummulativeCalifications(cummulativesArray);
         if (cummulativesToDb) {
@@ -104,7 +104,7 @@ export default class AlumnService {
               indicatorId: calificationFounded.indicatorId
             };
           });
-          let indicatorsToDb = indicators ? await db.calification.addCalificationIndicators(indicators) : [];
+          let indicatorsToDb = indicators.length ? await db.calification.addCalificationIndicators(indicators) : [];
         }
       }
       return alumn;
