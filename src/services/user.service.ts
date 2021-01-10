@@ -21,7 +21,6 @@ export default class UserService {
       //  const decoded = jwt.verify(token, "your secret or key");
       //  middlewares.isAuth;
       // var userId = decoded.user_data.user_id;
-      //  console.log(middlewares.isAuth);
       return await db.user.findById(data);
     } catch (error) {
       Logger.error(error);

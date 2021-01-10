@@ -99,7 +99,7 @@ export class CalificationRepository {
     });
   }
   async findByGradeAndSemesterId(gradeId: number, semesterId: number): Promise<Calification[]> {
-    console.log(gradeId, semesterId);
+
     return this.db.manyOrNone(sql.findByGradeIdAndSemesterId, {
       gradeId: gradeId, semesterId: semesterId,
     });
@@ -133,7 +133,6 @@ export class CalificationRepository {
 
 
   async batchUpdate(data: Calification[]): Promise<Calification[]> {
-
     const query = `${this.pgp.helpers.update(data, this.getCalificationPgpToUpdate())} 
     WHERE v.id = t.id ${this.getUpdatedColumnsNameToReturn()}`;
     return this.db.manyOrNone(query);

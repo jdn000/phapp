@@ -51,8 +51,8 @@ export class AlumnController {
   async put(@Param('id') id: number, @Body() params: Alumn): Promise<Alumn> {
     params.id = id;
     return this.alumnService.update(params);
-
   }
+
   @Get('/:id/report')
   @UseBefore(celebrate(validators.alumn.get))
   @UseBefore(middlewares.isAuth)

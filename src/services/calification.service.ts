@@ -108,6 +108,8 @@ export default class CalificationService {
   }
 
   public async createCummulativeCalifications(batchCalifications: BatchCalifications) {
+
+
     const savedBatchCalifications: BatchCalifications = {} as BatchCalifications;
     const califIndicatorArray: CalificationIndicator[] = [];
     if (batchCalifications.mainCalification.id) {
@@ -121,7 +123,6 @@ export default class CalificationService {
           subjectId: batchCalifications.mainCalification.subjectId
         };
       });
-
       const cummulativeCalificationsSaved = await db.cummulative.addCummulativeCalifications(cummulativeCalificationsToSave);
       if (cummulativeCalificationsSaved) {
         cummulativeCalificationsSaved.forEach((c) => {

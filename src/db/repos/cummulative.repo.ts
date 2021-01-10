@@ -56,7 +56,7 @@ export class CummulativeRepository {
         calificationId: d.calificationId,
         alumnId: d.alumnId,
         gradeId: d.gradeId,
-        subjectId: d.semesterId,
+        subjectId: d.subjectId,
         evaluationNumber: d.evaluationNumber,
         value: d.value,
         semesterId: currentSemester.id

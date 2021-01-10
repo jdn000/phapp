@@ -75,7 +75,6 @@ export class SemesterRepository {
       });
 
       if (toUpdate.length) {
-        console.log(toUpdate);
         await this.updatePrevious(toUpdate);
       }
       if (a.length) {
