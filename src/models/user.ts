@@ -1,31 +1,31 @@
 import { User } from '../interfaces/User';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
-const User = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, 'Please enter a full name'],
-      index: true,
-    },
+// const User = new mongoose.Schema(
+//   {
+//     name: {
+//       type: String,
+//       required: [true, 'Please enter a full name'],
+//       index: true,
+//     },
 
-    email: {
-      type: String,
-      lowercase: true,
-      unique: true,
-      index: true,
-    },
+//     email: {
+//       type: String,
+//       lowercase: true,
+//       unique: true,
+//       index: true,
+//     },
 
-    password: String,
+//     password: String,
 
-    salt: String,
+//     salt: String,
 
-    role: {
-      type: String,
-      default: 'user',
-    },
-  },
-  { timestamps: true },
-);
+//     role: {
+//       type: String,
+//       default: 'user',
+//     },
+//   },
+//   { timestamps: true },
+// );
 
-export default mongoose.model<User & mongoose.Document>('User', User);
+// export default mongoose.model<User & mongoose.Document>('User', User);
