@@ -57,7 +57,7 @@ const dbConfig = {
   database: config.postgres.db,
   user: config.postgres.user,
   password: config.postgres.password,
-  ssl: true
+  ssl: { rejectUnauthorized: false }
 };
 
 // Creating the database instance with extensions:
