@@ -3,8 +3,8 @@ import config from './config';
 import express from 'express';
 import Logger from './loaders/logger';
 
-
 async function startServer() {
+
   const app = express();
 
   /**
@@ -29,5 +29,4 @@ async function startServer() {
     `);
   });
 }
-
 startServer();

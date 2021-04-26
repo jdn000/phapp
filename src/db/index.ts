@@ -14,9 +14,9 @@ import {
   IndicatorRepository,
   CummulativeRepository,
   ReportRepository,
-  SemesterRepository
+  SemesterRepository,
+  UserSubjectRepository
 } from './repos';
-import { UserSubjectRepository } from './repos/userSubject.repo';
 
 
 

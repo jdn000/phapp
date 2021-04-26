@@ -126,6 +126,7 @@ export default class AlumnService {
   public async getallData(gradeNumber: number): Promise<CalificationReport[]> {
     try {
       return await db.alumn.getAllDataToReport(gradeNumber);
+
     } catch (error) {
       Logger.error(error);
       throw error;

@@ -2,7 +2,7 @@ import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
 import events from './events';
 import { User } from '../interfaces/User';
-//import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import Logger from '../loaders/logger';
 
 @EventSubscriber()
@@ -17,18 +17,18 @@ export default class UserSubscriber {
    * Use another approach like emit events to a queue (rabbitmq/aws sqs),
    * then save the latest in Redis/Memcache or something similar
    */
-  // @On(events.user.signIn)
-  // public onUserSignIn({ id }: Partial<User>) {
-  //   try {
-  //     const UserModel = Container.get('UserModel') as mongoose.Model<User & mongoose.Document>;
-  //     UserModel.update({ id }, { $set: { lastLogin: new Date() } });
-  //   } catch (e) {
-  //     Logger.error(`🔥 Error on event ${events.user.signIn}: %o`, e);
+  @On(events.user.signIn)
+  public onUserSignIn({ id }: Partial<User>) {
+    try {
+      const UserModel = Container.get('UserModel') as mongoose.Model<User & mongoose.Document>;
+      UserModel.update({ id }, { $set: { lastLogin: new Date() } });
+    } catch (e) {
+      Logger.error(`🔥 Error on event ${events.user.signIn}: %o`, e);
 
-  //     // Throw the error so the process die (check src/app.ts)
-  //     throw e;
-  //   }
-  // }
+      // Throw the error so the process die (check src/app.ts)
+      throw e;
+    }
+  }
 
   // @On(events.user.signUp)
   // public onUserSignUp({ username, email, id }: Partial<User>) {

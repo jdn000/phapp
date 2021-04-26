@@ -20,7 +20,9 @@ export class GradeController {
   @UseBefore(middlewares.isAuth)
   async getAll(@Param('gradeNumber') gradeNumber: number): Promise<any> {
     const alumnsData = await this.alumnService.getallData(gradeNumber);
-    return this.pdfService.test(alumnsData);
+    return await this.pdfService.test(alumnsData);
+
+
   }
 
   @Get('/:id/download')

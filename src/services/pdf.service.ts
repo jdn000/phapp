@@ -18,8 +18,8 @@ export default class PdfService {
     async test(alumnsData: CalificationReport[]): Promise<any> {
         const sem = await this.semesterService.getCurrentSemester();
         const doc = new PDFKit;
-        const fileName = `${moment().format('DDMMYYYhhmmss')}file.pdf`;
-        const filePath = path.resolve(__dirname, `../../public/reports/${fileName}`);
+        const fileName = `${moment().format('DDMMYYYhhmmss')}.pdf`;
+        const filePath = path.resolve(__dirname, `../../src/reports/${fileName}`);
 
         doc.pipe(fs.createWriteStream(filePath));
         let isFirstSemester = false;

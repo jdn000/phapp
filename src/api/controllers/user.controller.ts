@@ -31,7 +31,6 @@ export class UserController {
   @UseBefore(middlewares.isAuth)
   async post(@Body() data: User): Promise<string> {
     const { token } = await this.authService.signUp(data);
-
     return token;
 
   }
